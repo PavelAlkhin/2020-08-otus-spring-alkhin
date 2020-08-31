@@ -13,9 +13,9 @@ class QuestionTest {
     void shouldHaveCorrectConstructor() {
         Question question = new Question("question", "answer");
 
-        assertEquals("question", question.getQuestion());
-        assertEquals("answer", question.getAnswer());
+        assertAll("question",
+                () -> assertEquals("question", question.getQuestion()),
+                () -> assertEquals("answer", question.getAnswer()));
     }
-
 
 }
