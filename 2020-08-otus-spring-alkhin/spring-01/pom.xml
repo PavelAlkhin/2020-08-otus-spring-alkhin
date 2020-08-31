@@ -148,7 +148,7 @@
             <version>5.2.8.RELEASE</version>
             <!--        <scope>Compile</scope>-->
         </dependency>
-        <!-- <dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>RELEASE</version>
@@ -159,7 +159,7 @@
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.7.0-RC1</version>
             <scope>compile</scope>
-        </dependency>-->
+        </dependency>
 
     </dependencies>
 
