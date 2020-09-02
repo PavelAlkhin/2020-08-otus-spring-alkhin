@@ -4,15 +4,15 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- TODO: определите бин класса ru.otus.spring.dao.PersonDaoSimple -->
-    <bean id="personDao" class="ru.otus.spring.dao.PersonDaoSimple">
-        <property name="defaultAge" value="28" />
+    <bean id="question" class="ru.otus.spring.domain.Question"/>
+
+    <bean id="questions" class="ru.otus.spring.dao.QuestionsDaoSimple">
+        <!--        <constructor-arg name="questions" ref="question"/>-->
     </bean>
 
-    <!-- TODO: определите бин класса ru.otus.spring.PersonServiceImpl -->
-    <bean id="personService" class="ru.otus.spring.service.PersonServiceImpl">
-        <!-- <constructor-arg name="dao" ref="personDao"/> -->
-        <property name="dao" ref="personDao" />
+    <bean id="questionsService" class="ru.otus.spring.service.QuestionsServiceImpl">
+        <constructor-arg name="questions" ref="questions"/>
+        <property name="questionsFile" value="questions.csv"/>
     </bean>
 
 </beans>

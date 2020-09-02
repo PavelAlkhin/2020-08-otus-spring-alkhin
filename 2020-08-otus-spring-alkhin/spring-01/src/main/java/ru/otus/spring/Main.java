@@ -1,20 +1,40 @@
 package ru.otus.spring;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.otus.spring.domain.Person;
-import ru.otus.spring.service.PersonService;
+import ru.otus.spring.domain.Question;
+import ru.otus.spring.service.QuestionsService;
+
+import java.io.*;
 
 public class Main {
 
-    public static void main(String[] args) {
-        // TODO: создайте здесь класс контекста
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
-        PersonService service = context.getBean(PersonService.class);
-        Person ivan = service.getByName("Ivan");
-        // TODO: Получите Person Service
+    public static void main(String[] args) throws IOException {
 
-        // Получите Person "Ivan"
-        //Person ivan = null;
-        System.out.println("name: " + ivan.getName() + " age: " + ivan.getAge());
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
+        QuestionsService questionsService = context.getBean(QuestionsService.class);
+
+        getQuestionsFromFile(questionsService);
+
+        questionsService.printAllQuestions();
+
+        context.close();
+
+    }
+
+    public static void getQuestionsFromFile(QuestionsService questionsService) throws IOException {
+
+        InputStream stream = Main.class.getClassLoader().getResourceAsStream(questionsService.getQuestionsFile());
+
+        Reader reader = new InputStreamReader(stream);
+        BufferedReader bufferedReader = new BufferedReader(reader);
+
+        String readLine;
+
+        while ((readLine = bufferedReader.readLine()) != null) {
+            String arr[] = readLine.split(";");
+            questionsService.addQuestion(new Question(arr[0], arr[1]));
+        }
+
+        stream.close();
     }
 }
