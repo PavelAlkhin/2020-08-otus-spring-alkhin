@@ -1,16 +1,23 @@
 package ru.otus.spring;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.service.QuestionsService;
 
 import java.io.*;
 
+@ComponentScan
+@Configuration
 public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
+        AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext(Main.class);
         QuestionsService questionsService = context.getBean(QuestionsService.class);
 
         getQuestionsFromFile(questionsService);
@@ -21,7 +28,7 @@ public class Main {
 
     }
 
-    public static void getQuestionsFromFile(QuestionsService questionsService) throws IOException {
+    public static void getQuestionsFromFile(@org.jetbrains.annotations.NotNull QuestionsService questionsService) throws IOException {
 
         InputStream stream = Main.class.getClassLoader().getResourceAsStream(questionsService.getQuestionsFile());
 
