@@ -9,8 +9,11 @@ import ru.otus.spring.dao.QuestionsDao;
 import ru.otus.spring.dao.QuestionsDaoSimple;
 import ru.otus.spring.dao.StudentDao;
 import ru.otus.spring.domain.Question;
+import ru.otus.spring.domain.Student;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,15 +33,18 @@ class InputOutputServiceImplTest {
 
     @BeforeEach
     void setUp() {
+
+
+        questions.addQuestion(new Question("question1","1"));
+        StudentDao stud = (StudentDao) studentDao.addStudent("name", "surname");
+
         questionsService = new QuestionsServiceImpl(questions);
-        testingService = new TestingServiceImpl(studentDao);
+        testingService = new TestingServiceImpl(stud);
+
     }
 
     @Test
     void readQuestions() throws IOException {
-
-        questionsService = new QuestionsServiceImpl(questions);
-        testingService = new TestingServiceImpl(studentDao);
 
         InputOutputService inputOutputService = new InputOutputServiceImpl(questionsService, testingService);
 
