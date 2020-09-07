@@ -1,10 +1,12 @@
 package ru.otus.spring.dao;
 
+import org.springframework.stereotype.Repository;
 import ru.otus.spring.domain.Question;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class QuestionsDaoSimple implements QuestionsDao<Question> {
 
     private List<Question> questions = new ArrayList<Question>();
@@ -18,8 +20,8 @@ public class QuestionsDaoSimple implements QuestionsDao<Question> {
     }
 
     @Override
-    public void addQuestion(Question o) {
-        questions.add((Question) o);
+    public void addQuestion(Question question) {
+        questions.add(question);
     }
 
     @Override
