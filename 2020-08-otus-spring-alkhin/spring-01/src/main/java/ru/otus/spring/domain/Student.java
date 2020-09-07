@@ -1,8 +1,10 @@
 package ru.otus.spring.domain;
 
 public class Student {
-    private String name;
-    private String surname;
+
+    private final String name;
+    private final String surname;
+
     private int numberCorrectAnswers;
     private int rating = 2;
 

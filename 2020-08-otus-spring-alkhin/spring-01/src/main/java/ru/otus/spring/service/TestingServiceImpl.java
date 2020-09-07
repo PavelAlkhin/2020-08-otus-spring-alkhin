@@ -7,7 +7,7 @@ import ru.otus.spring.domain.Student;
 @Service(value = "TestingService")
 public class TestingServiceImpl implements TestingService {
 
-    private StudentDao studentDao;
+    private final StudentDao studentDao;
 
     public TestingServiceImpl(StudentDao studentDao) {
         this.studentDao = studentDao;
