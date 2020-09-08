@@ -6,7 +6,7 @@ import ru.otus.spring.domain.Question;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
+//@Repository
 public class QuestionsDaoSimple implements QuestionsDao<Question> {
 
     private List<Question> questions = new ArrayList<Question>();

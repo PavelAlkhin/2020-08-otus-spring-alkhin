@@ -34,7 +34,6 @@ class InputOutputServiceImplTest {
     @BeforeEach
     void setUp() {
 
-
         questions.addQuestion(new Question("question1","1"));
         StudentDao stud = (StudentDao) studentDao.addStudent("name", "surname");
 

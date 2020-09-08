@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.otus.spring.dao.StudentDao;
 import ru.otus.spring.domain.Student;
 
-@Service(value = "TestingService")
+//@Service(value = "TestingService")
 public class TestingServiceImpl implements TestingService {
 
     private final StudentDao studentDao;

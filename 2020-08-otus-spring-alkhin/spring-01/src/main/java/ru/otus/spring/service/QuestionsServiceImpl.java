@@ -8,17 +8,18 @@ import org.springframework.stereotype.Service;
 import ru.otus.spring.dao.QuestionsDao;
 import ru.otus.spring.domain.Question;
 
-@Service(value = "QuestionsService")
+//@Service(value = "QuestionsService")
 @PropertySource("classpath:application.properties")
 public class QuestionsServiceImpl implements QuestionsService {
 
     @Value("${questions.filename}")
     private String questionsFile;
-    private QuestionsDao<Question> questions;
 
-    @Autowired
-    public QuestionsServiceImpl(QuestionsDao<Question> questions) {
-        this.questions = questions;
+    private QuestionsDao<Question> questionsDao;
+
+//    @Autowired
+    public QuestionsServiceImpl(QuestionsDao<Question> questionsDao) {
+        this.questionsDao = questionsDao;
     }
 
     // for property bean, filename
@@ -28,27 +29,29 @@ public class QuestionsServiceImpl implements QuestionsService {
 
     @Override
     public void addQuestion(Question question) {
-        questions.addQuestion(question);
+        questionsDao.addQuestion(question);
     }
 
     @Override
-    public String getQuestionsFile() { return questionsFile; }
+    public String getQuestionsFile() {
+        return questionsFile;
+    }
 
     @Override
     public void printAllQuestions() {
-        for (int i = 0; questions.lengthOfQuestionsList() > i; i++) {
-            Question question = questions.findByIndex(i);
+        for (int i = 0; questionsDao.lengthOfQuestionsList() > i; i++) {
+            Question question = questionsDao.findByIndex(i);
             System.out.println("Question: " + question.getQuestion() + ". Answer: " + question.getAnswer());
         }
     }
 
     @Override
     public Question readQuestion(int index){
-        return questions.findByIndex(index);
+        return questionsDao.findByIndex(index);
     }
 
     @Override
     public int totalNamberOfQuestions(){
-        return questions.lengthOfQuestionsList();
+        return questionsDao.lengthOfQuestionsList();
     }
 }

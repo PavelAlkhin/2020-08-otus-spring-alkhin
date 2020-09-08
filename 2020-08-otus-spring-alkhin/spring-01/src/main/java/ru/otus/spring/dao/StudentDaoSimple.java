@@ -3,7 +3,7 @@ package ru.otus.spring.dao;
 import org.springframework.stereotype.Repository;
 import ru.otus.spring.domain.Student;
 
-@Repository
+//@Repository
 public class StudentDaoSimple implements StudentDao{
 
     @Override
