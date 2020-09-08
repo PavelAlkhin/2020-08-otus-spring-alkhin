@@ -15,7 +15,7 @@ public class QuestionsServiceImpl implements QuestionsService {
     @Value("${questions.filename}")
     private String questionsFile;
 
-    private QuestionsDao<Question> questionsDao;
+    private final QuestionsDao<Question> questionsDao;
 
 //    @Autowired
     public QuestionsServiceImpl(QuestionsDao<Question> questionsDao) {
