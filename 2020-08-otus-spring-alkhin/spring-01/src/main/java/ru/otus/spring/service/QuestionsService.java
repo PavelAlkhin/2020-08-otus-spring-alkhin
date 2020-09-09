@@ -14,4 +14,6 @@ public interface QuestionsService {
 
     int totalNamberOfQuestions();
 
+    void setQuestionsFile(String questionsFile);
+
 }

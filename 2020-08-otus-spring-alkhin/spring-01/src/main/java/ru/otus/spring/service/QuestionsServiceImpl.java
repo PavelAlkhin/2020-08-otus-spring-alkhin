@@ -1,10 +1,7 @@
 package ru.otus.spring.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Service;
 import ru.otus.spring.dao.QuestionsDao;
 import ru.otus.spring.domain.Question;
 
@@ -23,6 +20,7 @@ public class QuestionsServiceImpl implements QuestionsService {
     }
 
     // for property bean, filename
+    @Override
     public void setQuestionsFile(String questionsFile) {
         this.questionsFile = questionsFile;
     }
