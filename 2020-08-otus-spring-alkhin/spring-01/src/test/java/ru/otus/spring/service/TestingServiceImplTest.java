@@ -2,34 +2,64 @@ package ru.otus.spring.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.MessageSource;
+import ru.otus.spring.config.Props;
 import ru.otus.spring.dao.StudentDao;
 import ru.otus.spring.domain.Student;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class TestingServiceImplTest {
 
-    @Mock
+    @MockBean
     private StudentDao studentDao;
+
+    @MockBean
+    private Props props;
+
+    @MockBean
+    private QuestionsService questionsService;
+
+    @MockBean
+    private MessageSource messageSource;
 
     private TestingService testingService;
 
+//    private final InputOutputService OutputService = new InputOutputService();
+//    private final String fileName = "questionsTest.csv";
+
     @DisplayName("Создает студента")
     @Test
-    void addStudent() {
-        testingService = new TestingServiceImpl(studentDao);
+    void shouldAddStudent() {
+        testingService = new TestingServiceImpl(studentDao, questionsService, props, messageSource);
 
-        given(studentDao.addStudent("name", "sername"))
-                .willReturn(new Student("name", "sername"));
+        given(studentDao.addStudent("name", "surname"))
+                .willReturn(new Student("name", "surname"));
 
-        assertThat(testingService.addStudent("name", "sername"))
+        assertThat(testingService.addStudent("name", "surname"))
                 .isNotNull();
+    }
+
+    @DisplayName("Заполняет вопросы из файла")
+    @Test
+    void shouldFillInQuestions() {
+
+        InputOutputService OutputService;
+        String fileName;
+
+        given(props.getFilename()).willReturn("questionsTest.csv");
+
+        System.out.println(props.getFilename());
+
+        testingService = new TestingServiceImpl(studentDao, questionsService, props, messageSource);
+
+        int num = questionsService.totalNamberOfQuestions();
+        assertThat(num)
+                .isEqualTo(0);
+
     }
 }

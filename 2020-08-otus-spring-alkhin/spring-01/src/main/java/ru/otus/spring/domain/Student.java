@@ -1,20 +1,24 @@
 package ru.otus.spring.domain;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
+@RequiredArgsConstructor
 public class Student {
 
     private final String name;
     private final String surname;
 
+    @Getter
     private int numberCorrectAnswers;
+
+    @Getter  @Setter
     private int rating = 2;
 
-    public Student(String name, String surname) {
-        this.name = name;
-        this.surname = surname;
-    }
-
-    public int getNumberCorrectAnswers() {
-        return numberCorrectAnswers;
+    @Override
+    public String toString() {
+        return "Student " + getFio() + " was tested with an assessment " + getRating();
     }
 
     public void setNumberCorrectAnswers(int numberCorrectAnswers) {
@@ -30,14 +34,6 @@ public class Student {
         if (numberCorrectAnswers > 4){
             setRating(5);
         }
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
     }
 
     public String getFio(){

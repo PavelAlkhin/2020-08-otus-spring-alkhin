@@ -4,16 +4,10 @@ import ru.otus.spring.domain.Question;
 
 public interface QuestionsService {
 
-    String getQuestionsFile();
-
     void addQuestion(Question question);
-
-    void printAllQuestions();
 
     Question readQuestion(int index);
 
     int totalNamberOfQuestions();
-
-    void setQuestionsFile(String questionsFile);
 
 }

@@ -2,10 +2,12 @@ package ru.otus.spring.dao;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import ru.otus.spring.domain.Question;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SpringBootTest
 class QuestionsDaoSimpleTest {
 
     @DisplayName("находит по индексу, добавленный вопрос")
