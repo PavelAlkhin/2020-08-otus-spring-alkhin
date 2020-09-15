@@ -1,6 +1,7 @@
 package ru.otus.spring.shell;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -19,15 +20,16 @@ public class ApplicationEventsCommands {
         this.testingService = testingService;
     }
 
+    @SneakyThrows
     @ShellMethod(value = "Start testing students", key = {"s", "start"})
-    public String beginTestingStudents() throws IOException {
+    public String beginTestingStudents() {
 
         InputOutputService inputOutputService = new InputOutputService();
 
         testingService.fillInQuestions(inputOutputService);
         testingService.beginTesting(inputOutputService);
 
-        return "To start new test type `s` or `start`";
+        return "To start new test - type `s` or `start`";
     }
 
 }
