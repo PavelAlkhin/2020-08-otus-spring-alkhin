@@ -1,40 +1,35 @@
 package ru.otus.spring;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.otus.spring.domain.Question;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import ru.otus.spring.service.InputOutputService;
+import ru.otus.spring.service.InputOutputServiceImpl;
 import ru.otus.spring.service.QuestionsService;
+import ru.otus.spring.service.TestingService;
 
 import java.io.*;
 
+@ComponentScan
+@Configuration
+@PropertySource("classpath:application.properties")
 public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
+        AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext(Main.class);
+
         QuestionsService questionsService = context.getBean(QuestionsService.class);
+        TestingService testingService = context.getBean(TestingService.class);
 
-        getQuestionsFromFile(questionsService);
+        InputOutputService inputOutputService = new InputOutputServiceImpl(questionsService, testingService);
 
-        questionsService.printAllQuestions();
+        inputOutputService.beginTesting();
 
         context.close();
 
     }
 
-    public static void getQuestionsFromFile(QuestionsService questionsService) throws IOException {
-
-        InputStream stream = Main.class.getClassLoader().getResourceAsStream(questionsService.getQuestionsFile());
-
-        Reader reader = new InputStreamReader(stream);
-        BufferedReader bufferedReader = new BufferedReader(reader);
-
-        String readLine;
-
-        while ((readLine = bufferedReader.readLine()) != null) {
-            String arr[] = readLine.split(";");
-            questionsService.addQuestion(new Question(arr[0], arr[1]));
-        }
-
-        stream.close();
-    }
 }

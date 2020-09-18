@@ -10,4 +10,10 @@ public interface QuestionsService {
 
     void printAllQuestions();
 
+    Question readQuestion(int index);
+
+    int totalNamberOfQuestions();
+
+    void setQuestionsFile(String questionsFile);
+
 }
