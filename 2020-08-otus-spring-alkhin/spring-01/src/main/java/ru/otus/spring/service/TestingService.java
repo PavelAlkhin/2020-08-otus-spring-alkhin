@@ -8,8 +8,6 @@ public interface TestingService {
 
     Student addStudent(String name, String surname);
 
-    void fillInQuestions(InputOutputService readQuestion) throws IOException;
-
-    void beginTesting(InputOutputService readQuestion) throws IOException;
+    void beginTesting() throws IOException;
 
 }

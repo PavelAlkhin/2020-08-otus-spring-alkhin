@@ -14,7 +14,7 @@ import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.context.event.SimpleApplicationEventMulticaster;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import ru.otus.spring.config.Props;
-import ru.otus.spring.service.InputOutputService;
+import ru.otus.spring.service.InputOutputServiceImpl;
 import ru.otus.spring.service.TestingService;
 
 import java.io.IOException;
@@ -24,24 +24,12 @@ import java.io.IOException;
 @EnableConfigurationProperties(Props.class)
 public class Application {
 
-//    @Bean(name = "applicationEventMulticaster")
-//    public ApplicationEventMulticaster applicationEventMulticaster() {
-//        SimpleApplicationEventMulticaster eventMulticaster = new SimpleApplicationEventMulticaster();
-//        eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
-//        return eventMulticaster;
-//    }
-
     public static void main(String[] args) throws IOException {
 
-//        AnnotationConfigApplicationContext context =
-         ConfigurableApplicationContext ctx = SpringApplication.run(Application.class, args);
-
-        InputOutputService inputOutputService = new InputOutputService();
-
+        ConfigurableApplicationContext ctx = SpringApplication.run(Application.class, args);
         TestingService testingService = ctx.getBean(TestingService.class);
 
-        testingService.fillInQuestions(inputOutputService);
-        testingService.beginTesting(inputOutputService);
+        testingService.beginTesting();
 
     }
 

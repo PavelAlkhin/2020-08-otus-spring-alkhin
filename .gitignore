@@ -3,4 +3,6 @@ target/
 *.iws
 *.iml
 *.ipr
+.classpath
+.settings/
 

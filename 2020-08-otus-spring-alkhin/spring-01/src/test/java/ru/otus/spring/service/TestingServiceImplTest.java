@@ -27,15 +27,15 @@ class TestingServiceImplTest {
     @MockBean
     private MessageSource messageSource;
 
-    private TestingService testingService;
+    @MockBean
+    private InputOutputService inputOutput;
 
-//    private final InputOutputService OutputService = new InputOutputService();
-//    private final String fileName = "questionsTest.csv";
+    private TestingService testingService;
 
     @DisplayName("Создает студента")
     @Test
     void shouldAddStudent() {
-        testingService = new TestingServiceImpl(studentDao, questionsService, props, messageSource);
+        testingService = new TestingServiceImpl(studentDao, questionsService, props, messageSource, inputOutput);
 
         given(studentDao.addStudent("name", "surname"))
                 .willReturn(new Student("name", "surname"));
@@ -55,7 +55,7 @@ class TestingServiceImplTest {
 
         System.out.println(props.getFilename());
 
-        testingService = new TestingServiceImpl(studentDao, questionsService, props, messageSource);
+        testingService = new TestingServiceImpl(studentDao, questionsService, props, messageSource, inputOutput);
 
         int num = questionsService.totalNamberOfQuestions();
         assertThat(num)

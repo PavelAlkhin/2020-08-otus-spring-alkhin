@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Getter
 public class Question {
 
-    @Getter
     private final String question;
 
-    @Getter
     private final String answer;
 
 }

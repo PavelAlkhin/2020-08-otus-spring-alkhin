@@ -7,12 +7,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.Locale;
 
 @ConfigurationProperties(prefix = "applicationru")
+@Getter @Setter
 public class Props {
 
-    @Getter @Setter
     private String filename;
 
-    @Getter @Setter
     private Locale locale;
 
 }
