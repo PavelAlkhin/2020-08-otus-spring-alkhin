@@ -28,4 +28,9 @@ public class QuestionsDaoSimple implements QuestionsDao<Question> {
     public int lengthOfQuestionsList() {
         return questions.size();
     }
+
+    @Override
+    public void clearList() {
+        questions.clear();
+    }
 }

@@ -10,4 +10,6 @@ public interface QuestionsService {
 
     int totalNamberOfQuestions();
 
+    void deleteAllQuestions();
+
 }

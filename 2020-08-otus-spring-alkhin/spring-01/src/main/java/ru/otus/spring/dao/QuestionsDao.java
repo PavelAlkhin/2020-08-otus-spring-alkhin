@@ -9,4 +9,6 @@ public interface QuestionsDao<Question> {
 
     int lengthOfQuestionsList();
 
+    void clearList();
+
 }

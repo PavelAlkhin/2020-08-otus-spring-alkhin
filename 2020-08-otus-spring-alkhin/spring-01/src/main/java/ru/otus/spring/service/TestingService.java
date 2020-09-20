@@ -10,4 +10,6 @@ public interface TestingService {
 
     void beginTesting() throws IOException;
 
+    int countQuestions();
+
 }

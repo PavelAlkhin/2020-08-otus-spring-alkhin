@@ -28,4 +28,9 @@ public class QuestionsServiceImpl implements QuestionsService {
         return questionsDao.lengthOfQuestionsList();
     }
 
+    @Override
+    public void deleteAllQuestions() {
+        questionsDao.clearList();
+    }
+
 }

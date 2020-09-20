@@ -29,6 +29,10 @@ public class TestingServiceImpl implements TestingService {
 
     private void fillInQuestions() throws IOException {
 
+        if(questionsService.totalNamberOfQuestions()>0) {
+            questionsService.deleteAllQuestions();
+        }
+
         List<String[]> listString = inputOutput.getQuestionsFromFile(props.getFilename());
 
         for(int i = 0; listString.size()>i; i++){
@@ -69,5 +73,10 @@ public class TestingServiceImpl implements TestingService {
 
         System.out.println(strResult);
         logger.info(strResult);
+    }
+
+    @Override
+    public int countQuestions() {
+        return questionsService.totalNamberOfQuestions();
     }
 }
