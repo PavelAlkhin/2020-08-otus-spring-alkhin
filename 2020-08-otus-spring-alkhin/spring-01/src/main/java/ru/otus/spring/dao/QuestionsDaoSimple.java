@@ -1,18 +1,18 @@
 package ru.otus.spring.dao;
 
-import org.springframework.stereotype.Repository;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import ru.otus.spring.domain.Question;
 
 import java.util.ArrayList;
 import java.util.List;
 
-//@Repository
+@Component
+@NoArgsConstructor
 public class QuestionsDaoSimple implements QuestionsDao<Question> {
 
-    private List<Question> questions = new ArrayList<Question>();
-
-    public QuestionsDaoSimple() {
-    }
+    private final List<Question> questions = new ArrayList<>();
 
     @Override
     public Question findByIndex(int index) {
@@ -27,5 +27,10 @@ public class QuestionsDaoSimple implements QuestionsDao<Question> {
     @Override
     public int lengthOfQuestionsList() {
         return questions.size();
+    }
+
+    @Override
+    public void clearList() {
+        questions.clear();
     }
 }
