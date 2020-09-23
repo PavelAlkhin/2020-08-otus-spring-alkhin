@@ -1,7 +1,10 @@
 package ru.otus.spring.service;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Scanner;
 
+@Component
 public class ScannerService {
 
     private final static Scanner SCANNER = new Scanner(System.in);

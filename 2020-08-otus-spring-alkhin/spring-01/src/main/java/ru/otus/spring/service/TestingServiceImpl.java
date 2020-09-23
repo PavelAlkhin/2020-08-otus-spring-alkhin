@@ -15,7 +15,7 @@ import ru.otus.spring.domain.Student;
 import java.io.IOException;
 import java.util.List;
 
-@Component(value = "TestingService")
+@Component(value = "testingService")
 @RequiredArgsConstructor
 public class TestingServiceImpl implements TestingService {
 
