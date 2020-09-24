@@ -2,10 +2,8 @@ package ru.otus.spring.domain;
 
 import lombok.Data;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-//@RequiredArgsConstructor
 @Data
 public class Book {
 
@@ -23,5 +21,15 @@ public class Book {
         this.title = title;
         this.author = author;
         this.genre = genre;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author.getName() +'\'' +
+                ", genre='" + genre.getName() +'\'' +
+                '}';
     }
 }

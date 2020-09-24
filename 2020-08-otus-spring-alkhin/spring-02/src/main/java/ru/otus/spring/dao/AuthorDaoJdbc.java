@@ -1,8 +1,12 @@
 package ru.otus.spring.dao;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.otus.spring.domain.Author;
 
@@ -15,18 +19,18 @@ import java.util.Map;
 @RequiredArgsConstructor
 @SuppressWarnings({"SqlNoDataSourceInspection", "ConstantConditions", "SqlDialectInspection"})
 @Repository(value = "AuthorDao")
-public class AuthorDaoJdbc implements AuthorDao{
+public class AuthorDaoJdbc implements AuthorDao {
 
     private final NamedParameterJdbcOperations JdbcOperations;
 
     public int countByName(String name) {
-        return JdbcOperations.queryForObject("select count(*) from authors where name = :name",
+        return JdbcOperations.queryForObject("select count(1) from authors where name = :name",
                 Map.of("name", name), Integer.class);
     }
 
     @Override
     public int count() {
-        return JdbcOperations.getJdbcOperations().queryForObject("select count(*) from authors", Integer.class);
+        return JdbcOperations.getJdbcOperations().queryForObject("select count(1) from authors", Integer.class);
     }
 
     @Override
@@ -34,13 +38,16 @@ public class AuthorDaoJdbc implements AuthorDao{
 
         int cnt = countByName(author.getName());
 
-        if (cnt > 0){
+        if (cnt > 0) {
             author.setId(getIdByName(author.getName()));
+            return author;
         }
 
-        JdbcOperations.update("insert into authors (name) values (:name)", Map.of("name", author.getName()));
-
-        author.setId(getIdByName(author.getName()));
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("name", author.getName());
+        KeyHolder kh = new GeneratedKeyHolder();
+        JdbcOperations.update("insert into authors (name) values (:name)", params, kh);
+        author.setId(kh.getKey().longValue());
 
         return author;
     }
@@ -49,15 +56,15 @@ public class AuthorDaoJdbc implements AuthorDao{
     public Author getById(long id) {
 
         return JdbcOperations.queryForObject(
-                "select * from authors where id = :id",
-                Map.of("id",id), new AuthorMapper()
+                "select id, name from authors where id = :id",
+                Map.of("id", id), new AuthorMapper()
         );
     }
 
     @Override
     public int getIdByName(String name) {
 
-        if (countByName(name) == 0){
+        if (countByName(name) == 0) {
             return 0;
         }
 
@@ -69,21 +76,26 @@ public class AuthorDaoJdbc implements AuthorDao{
 
     @Override
     public void update(Author author) {
+        try {
 
-        JdbcOperations.update(
-                "delete from authors where id = :id",
-                Map.of("name", author.getId())
-        );
+            JdbcOperations.update(
+                    "delete from authors where id = :id",
+                    Map.of("id", author.getId())
+            );
 
+        } catch (
+                DataAccessException e) {
+            System.out.println(e);
+        }
         JdbcOperations.update(
-                "insert into authors (id, 'name') values (:id, :name)",
-                Map.of("name", author.getName(),"id", author.getId())
+                "insert into authors (id, name) values (:id, :name)",
+                Map.of("name", author.getName(), "id", author.getId())
         );
     }
 
     @Override
     public List<Author> getAll() {
-        return JdbcOperations.getJdbcOperations().query("select * from authors", new AuthorMapper());
+        return JdbcOperations.getJdbcOperations().query("select id, name from authors", new AuthorMapper());
     }
 
     @Override

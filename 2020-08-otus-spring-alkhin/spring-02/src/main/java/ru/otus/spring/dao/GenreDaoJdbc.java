@@ -1,6 +1,7 @@
 package ru.otus.spring.dao;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
@@ -19,13 +20,13 @@ public class GenreDaoJdbc implements GenreDao{
     private final NamedParameterJdbcOperations JdbcOperations;
 
     public int countByName(String name) {
-        return JdbcOperations.queryForObject("select count(*) from genres where name = :name",
+        return JdbcOperations.queryForObject("select count(1) from genres where name = :name",
                 Map.of("name", name), Integer.class);
     }
 
     @Override
     public int count() {
-        return JdbcOperations.getJdbcOperations().queryForObject("select count(*) from genres", Integer.class);
+        return JdbcOperations.getJdbcOperations().queryForObject("select count(1) from genres", Integer.class);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class GenreDaoJdbc implements GenreDao{
     public Genre getById(long id) {
 
         return JdbcOperations.queryForObject(
-                "select * from genres where id = :id",
+                "select id, name from genres where id = :id",
                 Map.of("id",id), new GenreDaoJdbc.GenreMapper()
         );
     }
@@ -69,20 +70,22 @@ public class GenreDaoJdbc implements GenreDao{
     @Override
     public void update(Genre Genre) {
 
-        JdbcOperations.update(
-                "delete from genres where id = :id",
-                Map.of("name", Genre.getId())
-        );
+        try{
+            JdbcOperations.update("delete from genres where id = :id",
+                    Map.of("id", Genre.getId()) );
+        }catch (DataAccessException e){
+            System.out.println(e);
+        }
 
         JdbcOperations.update(
-                "insert into genres (id, 'name') values (:id, :name)",
-                Map.of("name", Genre.getName(),"id", Genre.getId())
+                "insert into genres (id, name) values (:id, :name)",
+                Map.of("id", Genre.getId(), "name", Genre.getName())
         );
     }
 
     @Override
     public List<Genre> getAll() {
-        return JdbcOperations.getJdbcOperations().query("select * from genres", new GenreDaoJdbc.GenreMapper());
+        return JdbcOperations.getJdbcOperations().query("select id, name from genres", new GenreDaoJdbc.GenreMapper());
     }
 
     @Override

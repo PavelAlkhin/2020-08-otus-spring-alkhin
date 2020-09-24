@@ -24,14 +24,14 @@ public class BookDaoJdbc implements BookDao {
     private final GenreDao genreDao;
 
     public int countByTitleAuthor(String title, long author_id) {
-        return JdbcOperations.queryForObject("select count(*) from books " +
+        return JdbcOperations.queryForObject("select count(1) from books " +
                         "where title = :title and author_id = :author_id",
                 Map.of("title", title,"author_id",author_id), Integer.class);
     }
 
     @Override
     public int count() {
-        return JdbcOperations.getJdbcOperations().queryForObject("select count(*) from books", Integer.class);
+        return JdbcOperations.getJdbcOperations().queryForObject("select count(1) from books", Integer.class);
     }
 
     public int getIdByTitleAuthor(String title, long author_id) {
@@ -77,9 +77,14 @@ public class BookDaoJdbc implements BookDao {
     @Override
     public Book getBookById(long id) {
 
-        return JdbcOperations.queryForObject(
-                "select * from books where id = :id", Map.of("id", id), new BookMapper()
-        );
+        String query = "select " +
+                "books.id, books.title, books.author_id, books.genre_id, " +
+                "authors.name as authorname, " +
+                "genres.name as genrename " +
+                "from books left join authors on books.author_id = authors.id" +
+                " left join genres on books.genre_id = genres.id where books.id = :id";
+
+        return JdbcOperations.queryForObject( query, Map.of("id", id), new BookMapper() );
 
     }
 
@@ -91,19 +96,17 @@ public class BookDaoJdbc implements BookDao {
 
         try {
             JdbcOperations.update(
-                    "delete from books where title = :title and author_id = :author_id and genre_id = :genre_id",
-                    Map.of("title", book.getTitle(),
-                            "author_id", author.getId(),
-                            "genre_id", genre.getId()
-                    )
+                    "delete from books where id = :id",
+                    Map.of("id", book.getId())
             );
         }catch (DataAccessException e){
-
+            System.out.println(e);
         }
 
         JdbcOperations.update(
-                "insert into books (title, author_id, genre_id) values (:title, :author_id, :genre_id)",
-                Map.of("title", book.getTitle(),
+                "insert into books (id, title, author_id, genre_id) values (:id, :title, :author_id, :genre_id)",
+                Map.of("id", book.getId(),
+                        "title", book.getTitle(),
                         "author_id", author.getId(),
                         "genre_id", genre.getId()
                 )
@@ -112,7 +115,13 @@ public class BookDaoJdbc implements BookDao {
 
     @Override
     public List<Book> getAll() {
-        return JdbcOperations.query("select * from books", new BookMapper());
+        String query = "select " +
+                "books.id, books.title, books.author_id, books.genre_id, " +
+                "authors.name as authorname, " +
+                "genres.name as genrename " +
+                "from books left join authors on books.author_id = authors.id" +
+                " left join genres on books.genre_id = genres.id";
+        return JdbcOperations.query(query, new BookMapper());
     }
 
     @Override
@@ -128,21 +137,28 @@ public class BookDaoJdbc implements BookDao {
 
     }
 
-    private static class BookMapper implements RowMapper<Book> {
 
-        private AuthorDao authorDao;
-        private GenreDao genreDao;
+    private static class BookMapper implements RowMapper<Book> {
 
         @Override
         public Book mapRow(ResultSet resultSet, int i) throws SQLException {
+
             long id = resultSet.getLong("id");
             String title = resultSet.getString("title");
             long author_id = resultSet.getLong("author_id");
-            Author author = authorDao.getById(author_id);
             long genre_id = resultSet.getLong("genre_id");
-            Genre genre = genreDao.getById(genre_id);
+            String authorName = resultSet.getString("authorname");
+            String genreName = resultSet.getString("genrename");
+
+            Author author = new Author(authorName);
+            author.setId(author_id);
+
+            Genre genre = new Genre(genreName);
+            genre.setId(genre_id);
+
             Book book = new Book(title, author, genre);
             book.setId(id);
+
             return book;
         }
     }
