@@ -61,11 +61,11 @@ class AuthorDaoJdbcTest {
     @DisplayName("обновляет наименование автора")
     @Test
     void shouldupdate() {
-        Author newAuthor = new Author("Neckto For");
+        Author newAuthor = new Author("Neckto Forvrgvwe");
         newAuthor.setId(NECKTOFOR_ID);
         authorDaoJdbc.update(newAuthor);
         Author expAuthor = authorDaoJdbc.getById(NECKTOFOR_ID);
-        assertThat(expAuthor.getName()).isEqualTo("Neckto For");
+        assertThat(expAuthor.getName()).isEqualTo("Neckto Forvrgvwe");
     }
 
     @DisplayName("получает всех авторов")

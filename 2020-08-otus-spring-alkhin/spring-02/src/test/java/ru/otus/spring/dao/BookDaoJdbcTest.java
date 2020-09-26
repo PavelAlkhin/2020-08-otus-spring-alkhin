@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 //@Transactional(propagation = Propagation.NOT_SUPPORTED)
 class BookDaoJdbcTest {
 
-    private static final int EXPECTED_BOOKS_COUNT = 2;
+    private static final int EXPECTED_BOOKS_COUNT = 4;
     private static final long BOOK_ID = 1L;
     private static final String BOOK_NAME = "Scy my";
     private static final long AUTHOR_ID = 2;
@@ -38,7 +38,7 @@ class BookDaoJdbcTest {
     @Test
     void shouldcountByTitleAuthor() {
         int с = bookDaoJdbc.countByTitleAuthor(BOOK_NAME, AUTHOR_ID);
-        assertThat(с).isEqualTo(1);
+        assertThat(с).isEqualTo(2);
     }
 
     @DisplayName("возвращает количество книг")
@@ -49,18 +49,12 @@ class BookDaoJdbcTest {
 
     }
 
-    @DisplayName("возвращает id книги по титлу и автору")
-    @Test
-    void shouldgetIdByTitleAuthor() {
-        long id = bookDaoJdbc.getIdByTitleAuthor(BOOK_NAME, AUTHOR_ID);
-        assertThat(id).isEqualTo(BOOK_ID);    }
-
     @DisplayName("сохраняет книгу в БД")
     @Test
     void shouldsave() throws SQLException {
         Book actBook = new Book("new book", new Author("new author"), new Genre("new genre"));
-        actBook = bookDaoJdbc.save(actBook);
-        assertThat(bookDaoJdbc.count()).isEqualTo(3);
+        bookDaoJdbc.save(actBook);
+        assertThat(bookDaoJdbc.count()).isEqualTo(EXPECTED_BOOKS_COUNT+1);
     }
 
     @DisplayName("возвращает книгу по id")

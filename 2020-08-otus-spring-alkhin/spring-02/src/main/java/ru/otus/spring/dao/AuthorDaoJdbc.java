@@ -23,7 +23,7 @@ public class AuthorDaoJdbc implements AuthorDao {
 
     private final NamedParameterJdbcOperations JdbcOperations;
 
-    public int countByName(String name) {
+    private int countByName(String name) {
         return JdbcOperations.queryForObject("select count(1) from authors where name = :name",
                 Map.of("name", name), Integer.class);
     }
@@ -64,14 +64,15 @@ public class AuthorDaoJdbc implements AuthorDao {
     @Override
     public int getIdByName(String name) {
 
-        if (countByName(name) == 0) {
+        try {
+            return JdbcOperations.queryForObject(
+                    "select id from authors where name = :name",
+                    Map.of("name", name), Integer.class
+            );
+        } catch (DataAccessException e){
+            System.out.println(e);
             return 0;
         }
-
-        return JdbcOperations.queryForObject(
-                "select id from authors where name = :name",
-                Map.of("name", name), Integer.class
-        );
     }
 
     @Override
@@ -79,18 +80,14 @@ public class AuthorDaoJdbc implements AuthorDao {
         try {
 
             JdbcOperations.update(
-                    "delete from authors where id = :id",
-                    Map.of("id", author.getId())
+                    "update authors set name = :name where id = :id",
+                    Map.of("name", author.getName(), "id", author.getId())
             );
 
-        } catch (
-                DataAccessException e) {
+        } catch (DataAccessException e) {
             System.out.println(e);
         }
-        JdbcOperations.update(
-                "insert into authors (id, name) values (:id, :name)",
-                Map.of("name", author.getName(), "id", author.getId())
-        );
+
     }
 
     @Override

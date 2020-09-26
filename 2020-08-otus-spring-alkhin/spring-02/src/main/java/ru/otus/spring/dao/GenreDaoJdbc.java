@@ -3,7 +3,10 @@ package ru.otus.spring.dao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.otus.spring.domain.Genre;
 
@@ -38,9 +41,11 @@ public class GenreDaoJdbc implements GenreDao{
             genre.setId(getIdByName(genre.getName()));
         }
 
-        JdbcOperations.update("insert into genres (name) values (:name)", Map.of("name", genre.getName()));
-
-        genre.setId(getIdByName(genre.getName()));
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("name", genre.getName());
+        KeyHolder kh = new GeneratedKeyHolder();
+        JdbcOperations.update("insert into genres (name) values (:name)", params, kh);
+        genre.setId(kh.getKey().longValue());
 
         return genre;
     }
@@ -57,30 +62,29 @@ public class GenreDaoJdbc implements GenreDao{
     @Override
     public int getIdByName(String name) {
 
-        if (countByName(name) == 0){
+        try {
+            return JdbcOperations.queryForObject(
+                    "select id from genres where name = :name",
+                    Map.of("name", name), Integer.class
+            );
+        }catch (DataAccessException e){
+            System.out.println(e);
             return 0;
         }
-
-        return JdbcOperations.queryForObject(
-                "select id from genres where name = :name",
-                Map.of("name", name), Integer.class
-        );
     }
 
     @Override
     public void update(Genre Genre) {
+        try {
 
-        try{
-            JdbcOperations.update("delete from genres where id = :id",
-                    Map.of("id", Genre.getId()) );
-        }catch (DataAccessException e){
+            JdbcOperations.update(
+                    "update genres set name = :name where id = :id",
+                    Map.of("name", Genre.getName(), "id", Genre.getId())
+            );
+
+        } catch (DataAccessException e) {
             System.out.println(e);
         }
-
-        JdbcOperations.update(
-                "insert into genres (id, name) values (:id, :name)",
-                Map.of("id", Genre.getId(), "name", Genre.getName())
-        );
     }
 
     @Override

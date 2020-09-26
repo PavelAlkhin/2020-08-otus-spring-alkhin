@@ -3,7 +3,10 @@ package ru.otus.spring.dao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
@@ -34,10 +37,10 @@ public class BookDaoJdbc implements BookDao {
         return JdbcOperations.getJdbcOperations().queryForObject("select count(1) from books", Integer.class);
     }
 
-    public int getIdByTitleAuthor(String title, long author_id) {
+    private long getIdByTitleAuthor(String title, long author_id) {
 
         if (countByTitleAuthor(title, author_id) == 0){
-            return 0;
+            return 0L;
         }
 
         return JdbcOperations.queryForObject(
@@ -53,22 +56,27 @@ public class BookDaoJdbc implements BookDao {
         Author author = authorDao.save(book.getAuthor());
         Genre genre = genreDao.save(book.getGenre());
 
-        int cnt = countByTitleAuthor(book.getTitle(), author.getId());
+//        int cnt = countByTitleAuthor(book.getTitle(), author.getId());
+//
+//        if (cnt > 0){
+//            book.setId(getIdByTitleAuthor(book.getTitle(), author.getId()));
+//            return book;
+//        }
 
-        if (cnt > 0){
-            book.setId(getIdByTitleAuthor(book.getTitle(), author.getId()));
-            return book;
+        try {
+            MapSqlParameterSource params = new MapSqlParameterSource();
+            params.addValue("title", book.getTitle());
+            params.addValue("author_id", author.getId());
+            params.addValue("genre_id", genre.getId());
+
+            KeyHolder kh = new GeneratedKeyHolder();
+            JdbcOperations.update("insert into books (title, author_id, genre_id) values (:title, :author_id, :genre_id)",
+                    params, kh);
+            book.setId(kh.getKey().longValue());
+        } catch (DataAccessException e){
+            System.out.println(e);
+            return null;
         }
-
-        JdbcOperations.update(
-                "insert into books (title, author_id, genre_id) values (:title, :author_id, :genre_id)",
-                Map.of("title", book.getTitle(),
-                        "author_id", author.getId(),
-                        "genre_id", genre.getId()
-                )
-        );
-
-        book.setId(getIdByTitleAuthor(book.getTitle(), author.getId()));
 
         return book;
 
@@ -95,22 +103,18 @@ public class BookDaoJdbc implements BookDao {
         Genre genre = genreDao.save(book.getGenre());
 
         try {
+
             JdbcOperations.update(
-                    "delete from books where id = :id",
-                    Map.of("id", book.getId())
+                    "update books set title = :title, author_id = :author_id, genre_id =:genre_id where id = :id",
+                    Map.of(
+                            "title", book.getTitle(), "id", book.getId(),
+                            "author_id", author.getId(), "genre_id", genre.getId()
+                    )
             );
-        }catch (DataAccessException e){
+
+        } catch (DataAccessException e) {
             System.out.println(e);
         }
-
-        JdbcOperations.update(
-                "insert into books (id, title, author_id, genre_id) values (:id, :title, :author_id, :genre_id)",
-                Map.of("id", book.getId(),
-                        "title", book.getTitle(),
-                        "author_id", author.getId(),
-                        "genre_id", genre.getId()
-                )
-        );
     }
 
     @Override
