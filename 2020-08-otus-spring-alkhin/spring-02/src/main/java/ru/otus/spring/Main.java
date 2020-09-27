@@ -24,7 +24,8 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
 
-        ApplicationContext context = SpringApplication.run(Main.class);
+        ApplicationContext ctx = SpringApplication.run(Main.class);
+
 
     }
 }
