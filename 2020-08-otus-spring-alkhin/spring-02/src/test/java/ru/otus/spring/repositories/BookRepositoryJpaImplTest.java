@@ -40,17 +40,17 @@ class BookRepositoryJpaImplTest {
     @Test
     void sholdsave() {
 
-        Author author = new Author(0,"New Author name");
+        Author author = new Author(0L,"New Author name");
         List<Author> authors = Collections.singletonList(author);
 
-        Genre genre = new Genre(0,"New Genre book");
+        Genre genre = new Genre(0L,"New Genre book");
         List<Genre> genres = Collections.singletonList(genre);
 
-        Book book = new Book(0,"Titlу of some new book", authors, genres);
+        Book book = new Book(0L,"Titlу of some new book", authors, genres);
 
         bookRepositoryJpa.save(book);
 
-        assertThat(book.getId()).isGreaterThan(0);
+        assertThat(book.getId()).isGreaterThan(0L);
 
         val actualBook = em.find(Book.class, book.getId());
 
