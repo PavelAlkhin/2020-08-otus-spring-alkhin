@@ -12,6 +12,7 @@ import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BookRepositoryJpaImplTest {
 
     @Autowired
-    private BookRepositoryJpaImpl repositoryJpa;
+    private BookRepositoryJpaImpl bookRepositoryJpa;
 
     @Autowired
     private TestEntityManager em;
@@ -31,24 +32,27 @@ class BookRepositoryJpaImplTest {
     @Test
     void sholdFindById() {
         val firstbook = em.find(Book.class, 1L);
-        Optional<Book> book = repositoryJpa.findById(1L);
-        System.out.println(book);
-        System.out.println(firstbook);
-
+        Optional<Book> book = bookRepositoryJpa.findById(1L);
+        assertThat(firstbook).isNotNull()
+                .isEqualTo(book.get());
     }
 
     @Test
     void sholdsave() {
-        val author = new Author(10,"New Author name");
-        val authors = Collections.singletonList(author);
-        val genre = new Genre(10,"New Genre book");
-        val genres = Collections.singletonList(genre);
 
-        val book = new Book(10,"Titlу of some new book", authors, genres);
-        repositoryJpa.save(book);
-        //assertThat(book.getId()).isGreaterThan(0);
+        Author author = new Author(0,"New Author name");
+        List<Author> authors = Collections.singletonList(author);
 
-        //val actualBook = em.find(Book.class, book.getId());
+        Genre genre = new Genre(0,"New Genre book");
+        List<Genre> genres = Collections.singletonList(genre);
+
+        Book book = new Book(0,"Titlу of some new book", authors, genres);
+
+        bookRepositoryJpa.save(book);
+
+        assertThat(book.getId()).isGreaterThan(0);
+
+        val actualBook = em.find(Book.class, book.getId());
 
        // System.out.println(actualBook);
 

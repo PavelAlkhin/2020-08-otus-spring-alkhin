@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional
-@Repository
+@Repository(value="BookRepository")
 public class BookRepositoryJpaImpl implements BookRepositoryJpa{
 
     @PersistenceContext

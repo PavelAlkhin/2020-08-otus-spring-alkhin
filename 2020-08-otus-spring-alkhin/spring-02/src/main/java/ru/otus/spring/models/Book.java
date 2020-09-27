@@ -35,7 +35,8 @@ public class Book {
     // Указывает на связь между таблицами "один ко многим"
     @ManyToMany(targetEntity = Genre.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "books_genres", joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id"))//    @Column(name = "genre_id", nullable = false, unique = true)
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    //    @Column(name = "genre_id", nullable = false, unique = true)
     private List<Genre> genre;
 
     @Override

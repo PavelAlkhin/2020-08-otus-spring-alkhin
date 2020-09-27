@@ -1,24 +1,33 @@
+DROP TABLE IF EXISTS GENRES;
+DROP TABLE IF EXISTS BOOKS;
+DROP TABLE IF EXISTS AUTHORS;
 
 CREATE TABLE AUTHORS (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255)
+    id bigint,
+    name VARCHAR(255),
+    primary key (id)
 );
 
 CREATE TABLE GENRES (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255)
+    id bigint,
+    name VARCHAR(255),
+    primary key (id)
 );
 
 CREATE TABLE BOOKS (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    id bigint,
     title VARCHAR(255),
-    author_id BIGINT,
-    genre_id BIGINT,
-    FOREIGN KEY (genre_id) REFERENCES GENRES(id)
+    primary key (id)
 );
 
 CREATE TABLE BOOKS_AUTHORS(
     book_id bigint references books(id) on delete cascade,
-    author_id bigint references authors(id),
-    primary key (book_id, author_id)
+    author_id bigint references authors(id) on delete cascade
+--     primary key (book_id, author_id)
+);
+
+CREATE TABLE BOOKS_GENRES(
+    book_id bigint references books(id) on delete cascade,
+    genre_id bigint references genres(id) on delete cascade
+--     primary key (book_id, genre_id)
 );
