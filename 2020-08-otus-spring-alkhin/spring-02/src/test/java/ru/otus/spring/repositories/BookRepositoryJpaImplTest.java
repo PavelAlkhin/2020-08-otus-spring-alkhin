@@ -52,7 +52,7 @@ class BookRepositoryJpaImplTest {
         Genre genre = new Genre(0L,"New Genre book");
         List<Genre> genres = Collections.singletonList(genre);
 
-        Book book = new Book(0L,"Titlу of some new book", authors, genres);
+        Book book = new Book(0L,"Titlу of some new book", "desc", authors, genres);
 
         bookRepositoryJpa.save(book);
 

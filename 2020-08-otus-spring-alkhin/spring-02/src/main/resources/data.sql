@@ -5,10 +5,10 @@ insert into authors (name, id)
 values ('Pushkin',1),('Lermontov',2),('Tutchev',3);
 
 insert into books (title, id, description)
-values ('Book1', 1, "description"),('Book2', 3, "description"),('Book3', 2, "description"),
-('Book4', 4, "description"),('Book4', 5, "description"),('Book4', 6, "description"),
-('Book7', 7, "description"),('Book8', 8, "description"),('Book9', 9, "description"),
-('Book10', 10, "description"),('Book11', 11, "description"),('Book12', 12, "description");
+values ('Book1', 1, 'description'),('Book2', 3, 'description'),('Book3', 2, 'description'),
+('Book4', 4, 'description'),('Book4', 5, 'description'),('Book4', 6, 'description'),
+('Book7', 7, 'description'),('Book8', 8, 'description'),('Book9', 9, 'description'),
+('Book10', 10, 'description'),('Book11', 11, 'description'),('Book12', 12, 'description');
 
 insert into books_authors (book_id, author_id)
 values (1, 1),(1, 3),(2, 2),(2, 1),(3, 3),(3, 2),
