@@ -3,19 +3,19 @@ DROP TABLE IF EXISTS BOOKS;
 DROP TABLE IF EXISTS AUTHORS;
 
 CREATE TABLE AUTHORS (
-    id bigint,
+    id bigint AUTO_INCREMENT,
     name VARCHAR(255),
     primary key (id)
 );
 
 CREATE TABLE GENRES (
-    id bigint,
+    id bigint AUTO_INCREMENT,
     name VARCHAR(255),
     primary key (id)
 );
 
 CREATE TABLE BOOKS (
-    id bigint,
+    id bigint AUTO_INCREMENT,
     title VARCHAR(255),
     primary key (id)
 );

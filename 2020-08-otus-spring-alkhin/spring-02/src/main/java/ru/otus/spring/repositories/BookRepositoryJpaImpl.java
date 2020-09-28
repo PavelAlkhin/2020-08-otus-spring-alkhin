@@ -1,5 +1,6 @@
 package ru.otus.spring.repositories;
 
+import lombok.val;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Book;
@@ -31,34 +32,47 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa{
 
     @Override
     public List<Book> findAll() {
-        EntityGraph<?> entityGraph = em.getEntityGraph("avatars-entuty-graph");
-        TypedQuery<Book> query = em.createQuery("select b from books b join fetch b.genres", Book.class);
-        query.setHint("javax.persistence.fetchgraph", entityGraph);
+        TypedQuery<Book> query = em.createQuery(
+                "select b from Book b", Book.class);
         return query.getResultList();
 
     }
 
     @Override
-    public List<Book> findByName(String name) {
-        TypedQuery<Book> query = em.createQuery("select b from books b where b.title = :name",
+    public List<Book> findByTitle(String title) {
+        TypedQuery<Book> query = em.createQuery("select b from Book b where b.title = :title",
                 Book.class);
-        query.setParameter("name", name);
+        query.setParameter("title", title);
         return query.getResultList();
     }
 
     @Override
     public void updateNameById(long id, String title) {
-        Query query = em.createQuery("update books b set b.title = :title where b.id = :id");
+        Query query = em.createQuery("update Book b set b.title = :title where b.id = :id");
         query.setParameter("title", title);
         query.setParameter("id", id);
         query.executeUpdate();
-
     }
 
     @Override
     public void deleteById(long id) {
-        Query query = em.createQuery("delete books b where b.id = :id");
+        Query query = em.createQuery("delete Book b where b.id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
+    }
+
+    @Override
+    public int countBooks() {
+        List<Book> books = findAll();
+        return books.size();
+    }
+
+    @Override
+    public void printAllBooks() {
+        val iterBooks = findAll().iterator();
+
+        while (iterBooks.hasNext()){
+            System.out.println(iterBooks.next().toString());
+        }
     }
 }
