@@ -27,7 +27,10 @@ public class ApplicationEventsCommands {
         System.out.println("Enter Genre type ");
         String genreType = scannerService.read();
 
-        bookService.saveBook(title, authorName, genreType);
+        System.out.println("Enter description ");
+        String description = scannerService.read();
+
+        bookService.saveBook(title, authorName, genreType, description);
 
         return "To save new book - type `save new book` or `save book`";
     }

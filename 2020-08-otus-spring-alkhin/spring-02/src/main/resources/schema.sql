@@ -17,6 +17,7 @@ CREATE TABLE GENRES (
 CREATE TABLE BOOKS (
     id bigint AUTO_INCREMENT,
     title VARCHAR(255),
+    description VARCHAR(255),
     primary key (id)
 );
 
