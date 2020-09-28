@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.val;
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -48,7 +47,7 @@ public class Book {
         val listGenres = genre.iterator();
 
         String descriptionBook = "Book{" + "id=" + id +
-                "; title='" + title + "'";
+                "; title='" + title + "'" + " desc:'" + description + "';";
         String authors = "; authors=";
         while (listAuthors.hasNext()) {
             val iterAuthor = listAuthors.next();
