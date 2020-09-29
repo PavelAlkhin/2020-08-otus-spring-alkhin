@@ -1,7 +1,0 @@
-applicationru:
-  filename: "questionsRU.csv"
-  locale: ru_RU
-
-applicationen:
-  filename: "questionsEN.csv"
-  locale: EN
