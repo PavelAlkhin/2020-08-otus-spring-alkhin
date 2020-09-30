@@ -1,5 +1,6 @@
 package ru.otus.spring.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.otus.spring.Application;
 
@@ -8,10 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-@Component(value="InputOutputService")
+@AllArgsConstructor
+@Component(value="inputOutputService")
 public class InputOutputServiceImpl implements InputOutputService {
 
-    private final ScannerService SCANNER = new ScannerService();
+    private final ScannerService SCANNER;
 
     @Override
     public List<String[]> getQuestionsFromFile(String fileName) throws IOException {

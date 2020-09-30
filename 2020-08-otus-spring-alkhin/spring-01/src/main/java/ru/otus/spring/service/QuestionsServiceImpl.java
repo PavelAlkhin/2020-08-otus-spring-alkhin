@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.otus.spring.dao.QuestionsDao;
 import ru.otus.spring.domain.Question;
 
-@Component(value = "QuestionsService")
+@Component(value = "questionsService")
 public class QuestionsServiceImpl implements QuestionsService {
 
     private final QuestionsDao<Question> questionsDao;
