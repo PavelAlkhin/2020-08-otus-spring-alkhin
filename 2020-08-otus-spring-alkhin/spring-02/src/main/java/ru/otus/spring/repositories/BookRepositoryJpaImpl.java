@@ -16,6 +16,7 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa{
     @PersistenceContext
     private EntityManager em;
 
+    @Transactional
     @Override
     public Book save(Book book) {
         if(book.getId()==0){
@@ -35,7 +36,6 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa{
         TypedQuery<Book> query = em.createQuery(
                 "select b from Book b", Book.class);
         return query.getResultList();
-
     }
 
     @Override
@@ -46,19 +46,18 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa{
         return query.getResultList();
     }
 
+    @Transactional
     @Override
     public void updateNameById(long id, String title) {
-        Query query = em.createQuery("update Book b set b.title = :title where b.id = :id");
-        query.setParameter("title", title);
-        query.setParameter("id", id);
-        query.executeUpdate();
+        Book book = em.find(Book.class, id);
+        book.setTitle(title);
+        em.merge(book);
     }
 
+    @Transactional
     @Override
     public void deleteById(long id) {
-        Query query = em.createQuery("delete Book b where b.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        em.remove(em.find(Book.class, id));
     }
 
     @Override
@@ -69,10 +68,11 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa{
 
     @Override
     public void printAllBooks() {
-        val iterBooks = findAll().iterator();
+        List<Book> listBooks = findAll();
 
-        while (iterBooks.hasNext()){
-            System.out.println(iterBooks.next().toString());
+        for (int i = 0; i<listBooks.size(); i++){
+            System.out.println(listBooks.get(i).toString());
         }
+
     }
 }

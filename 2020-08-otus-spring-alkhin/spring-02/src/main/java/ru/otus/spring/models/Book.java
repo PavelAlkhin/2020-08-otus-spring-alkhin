@@ -31,36 +31,31 @@ public class Book {
     @JoinTable(name = "books_authors", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     @Fetch(FetchMode.SUBSELECT)
-    private List<Author> author;
+    private List<Author> authors;
 
     @ManyToMany(targetEntity = Genre.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL )
     @JoinTable(name = "books_genres", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     @Fetch(FetchMode.SUBSELECT)
-    private List<Genre> genre;
+    private List<Genre> genres;
 
     @Override
     public String toString() {
 
-        val listAuthors = author.iterator();
-        val listGenres = genre.iterator();
-
         String descriptionBook = "Book{" + "id=" + id +
-                "; title='" + title + "'" + " desc:'" + description + "';";
-        String authors = "; authors=";
-        while (listAuthors.hasNext()) {
-            val iterAuthor = listAuthors.next();
-            authors += " '" + iterAuthor.getName() + "'";
-        }
-        String genres = "; genres=";
-        while (listGenres.hasNext()) {
-            val iterGenre = listGenres.next();
-            genres += " '" + iterGenre.getName() + "'";
+                "; title='" + title + "';" + " desc:'" + description + "'";
+        String strAuthors = "; authors=";
+        for (int i = 0; i<authors.size();i++) {
+            strAuthors += " '" + authors.get(i).getName() + "'";
         }
 
-        descriptionBook += authors + genres + "}";
+        String strGenres = "; genres=";
+        for (int i=0; i<genres.size();i++) {
+            strGenres += " '" + genres.get(i).getName() + "'";
+        }
+
+        descriptionBook += strAuthors + strGenres + "}";
 
         return descriptionBook;
-
     }
 }
