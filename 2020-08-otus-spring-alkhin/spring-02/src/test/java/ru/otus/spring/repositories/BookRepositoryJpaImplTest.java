@@ -1,7 +1,9 @@
 package ru.otus.spring.repositories;
 
 import lombok.val;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.internal.SessionFactoryImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,7 @@ import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -95,13 +94,9 @@ class BookRepositoryJpaImplTest {
     @DisplayName("должен найти книгу по названию")
     @Test
     void shouldFindByTitle(){
-
-        val book3 = em.find(Book.class, Map.of("title","Book1"));
-
-        System.out.println(book3.getAuthors());
-//        val firstBook = em.find(Book.class, 1L);
-//        List<Book> books = bookRepositoryJpa.findByTitle("Book1");
-//        assertThat(books).containsOnlyOnce(firstBook);
+        val firstBook = em.find(Book.class, 1L);
+        List<Book> books = bookRepositoryJpa.findByTitle("Book1");
+        assertThat(books).containsOnlyOnce(firstBook);
     }
 
     @DisplayName("должен удалить книгу по id")
@@ -113,5 +108,14 @@ class BookRepositoryJpaImplTest {
         assertThat(cntBooksExp).isEqualTo(cntBooks-1);
 
     }
+
+    @DisplayName("should find book by Author name")
+    @Test
+    void shouldgetBooksByAuthorName(){
+        val books = bookRepositoryJpa.getBooksByAuthorName("Pushkin");
+        bookRepositoryJpa.printBooks(books);
+        assertThat(books.size()).isEqualTo(8);
+    }
+
 
 }

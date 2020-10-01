@@ -1,5 +1,6 @@
 package ru.otus.spring.repositories;
 
+import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 
 import java.util.List;
@@ -22,4 +23,12 @@ public interface BookRepositoryJpa {
     int countBooks();
 
     void printAllBooks();
+
+    void printBooks(List<Book> listBooks);
+
+    List<Book> getBooksByAuthor(List<Author> authors);
+
+    Author getAuthorById(Long id);
+
+    List<Book> getBooksByAuthorName(String name);
 }

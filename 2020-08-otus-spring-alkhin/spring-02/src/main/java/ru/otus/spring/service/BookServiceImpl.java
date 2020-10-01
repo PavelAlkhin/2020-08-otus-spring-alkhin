@@ -8,6 +8,7 @@ import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
 import ru.otus.spring.repositories.BookRepositoryJpa;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,6 +31,11 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    public void printBooks(List<Book> books) {
+        bookRepositoryJpa.printBooks(books);
+    }
+
+    @Override
     public void printAllBooks() {
         bookRepositoryJpa.printAllBooks();
     }
@@ -37,5 +43,22 @@ public class BookServiceImpl implements BookService{
     @Override
     public List<Book> findByTite(String title) {
         return bookRepositoryJpa.findByTitle(title);
+    }
+
+    @Override
+    public List<Book> getBooksByAuthorId(Author author) {
+        val authorList = Collections.singletonList(author);
+        val books = bookRepositoryJpa.getBooksByAuthor(authorList);
+        return books;
+    }
+
+    @Override
+    public Author getAuthorById(Long id) {
+        return bookRepositoryJpa.getAuthorById(id);
+    }
+
+    @Override
+    public List<Book> getBooksByAuthorName(String name) {
+        return bookRepositoryJpa.getBooksByAuthorName(name);
     }
 }
