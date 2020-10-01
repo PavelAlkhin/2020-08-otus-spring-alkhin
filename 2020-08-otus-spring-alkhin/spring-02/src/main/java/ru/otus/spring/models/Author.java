@@ -7,23 +7,20 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.util.List;
 
+@Getter @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
 @Entity
 @Table(name = "authors")
 public class Author {
 
-    @Getter @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Getter @Setter
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Getter @Setter
     @ManyToMany(targetEntity = Book.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "books_authors", joinColumns = @JoinColumn(name = "author_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
