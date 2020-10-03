@@ -1,6 +1,7 @@
 package ru.otus.spring.repositories;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
@@ -22,7 +23,8 @@ public class AuthorRepositoryJpaImlp implements AuthorRepositoryJpa {
     public List<Author> findAll() {
         TypedQuery<Author> query = em.createQuery(
                 "select a from Author a", Author.class);
-        return query.getResultList();    }
+        return query.getResultList();
+    }
 
     @Transactional
     @Override
@@ -44,6 +46,7 @@ public class AuthorRepositoryJpaImlp implements AuthorRepositoryJpa {
         return new ArrayList<>();
     }
 
+    @Transactional
     @Override
     public String printBooksByAuthorName(String name) {
         List<Author> authorList = findByName(name);
