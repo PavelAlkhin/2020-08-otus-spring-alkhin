@@ -1,28 +1,23 @@
 package ru.otus.spring.repositories;
 
 import lombok.val;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.jpa.QueryHints;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
-
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Transactional
-@Repository(value="BookRepository")
+@Repository
 public class BookRepositoryJpaImpl implements BookRepositoryJpa{
 
     @PersistenceContext
@@ -43,6 +38,7 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa{
         return Optional.ofNullable(em.find(Book.class,id));
     }
 
+    @Transactional
     @Override
     public List<Book> findAll() {
         TypedQuery<Book> query = em.createQuery(
@@ -50,6 +46,7 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa{
         return query.getResultList();
     }
 
+    @Transactional
     @Override
     public List<Book> findByTitle(String title) {
         TypedQuery<Book> query = em.createQuery("select b from Book b where b.title = :title",
@@ -72,12 +69,14 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa{
         em.remove(em.find(Book.class, id));
     }
 
+    @Transactional
     @Override
     public int countBooks() {
         List<Book> books = findAll();
         return books.size();
     }
 
+    @Transactional
     @Override
     public void printAllBooks() {
         val books = findAll();
@@ -91,6 +90,7 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa{
         }
     }
 
+    @Transactional
     @Override
     public List<Book> getBooksByAuthor(List<Author> authors) {
 
@@ -109,6 +109,7 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa{
         }
     }
 
+    @Transactional
     @Override
     public List<Book> getBooksByAuthorName(String name) {
 
@@ -117,9 +118,12 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa{
         query.setParameter("name", name);
         List<Author> authors =  query.getResultList();
 
-        val author = authors.get(0);
-
-        return author.getBooks();
+        if (authors.size()>0) {
+            val author = authors.get(0);
+            return author.getBooks();
+        }
+        List<Book> books = new ArrayList<>();
+        return books;
     }
 
     public Author getAuthorById(Long id){

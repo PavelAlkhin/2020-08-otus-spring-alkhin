@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
+import ru.otus.spring.repositories.AuthorRepositoryJpa;
 import ru.otus.spring.repositories.BookRepositoryJpa;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,6 +17,7 @@ import java.util.List;
 public class BookServiceImpl implements BookService{
 
     private final BookRepositoryJpa bookRepositoryJpa;
+    private final AuthorRepositoryJpa authorRepositoryJpa;
 
     @Override
     public void saveBook(String title, String author, String genre, String description) {
@@ -59,6 +60,12 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public List<Book> getBooksByAuthorName(String name) {
-        return bookRepositoryJpa.getBooksByAuthorName(name);
+        val books = authorRepositoryJpa.findByAuthorName(name);
+        return books;
+    }
+
+    @Override
+    public String printBooksByAuthorName(String name) {
+        return authorRepositoryJpa.printBooksByAuthorName(name);
     }
 }
