@@ -40,8 +40,7 @@ public class AuthorRepositoryJpaImlp implements AuthorRepositoryJpa {
     public List<Book> findByAuthorName(String name) {
         List<Author> authorList = findByName(name);
         if (authorList.size()>0){
-            Author author = authorList.get(0);
-            return author.getBooks();
+            return authorList.get(0).getBooks();
         }
         return new ArrayList<>();
     }
@@ -51,8 +50,7 @@ public class AuthorRepositoryJpaImlp implements AuthorRepositoryJpa {
     public String printBooksByAuthorName(String name) {
         List<Author> authorList = findByName(name);
         if (authorList.size()>0){
-            Author author = authorList.get(0);
-            return author.printBooks();
+            return authorList.get(0).printBooks();
         }
         return "no books";
     }

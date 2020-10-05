@@ -13,6 +13,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,7 +104,7 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa{
         List<Book> results = query.getResultList();
 
         if (results == null || results.size() == 0) {
-            return null;
+            return Collections.emptyList();
         } else {
             return results;
         }
@@ -119,11 +120,9 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa{
         List<Author> authors =  query.getResultList();
 
         if (authors.size()>0) {
-            val author = authors.get(0);
-            return author.getBooks();
+            return authors.get(0).getBooks();
         }
-        List<Book> books = new ArrayList<>();
-        return books;
+        return Collections.emptyList();
     }
 
     public Author getAuthorById(Long id){
