@@ -1,5 +1,6 @@
 .idea/
 *.iml
 *.zip
+spring-shell.log
 
 target/

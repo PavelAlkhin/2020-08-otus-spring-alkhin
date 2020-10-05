@@ -27,7 +27,10 @@ public class ApplicationEventsCommands {
         System.out.println("Enter Genre type ");
         String genreType = scannerService.read();
 
-        bookService.saveBook(title, authorName, genreType);
+        System.out.println("Enter description ");
+        String description = scannerService.read();
+
+        bookService.saveBook(title, authorName, genreType, description);
 
         return "To save new book - type `save new book` or `save book`";
     }
@@ -35,6 +38,16 @@ public class ApplicationEventsCommands {
     @ShellMethod(value = "Count books", key = {"count", "c"})
     public int countBooks() {
         return bookService.countBooks();
+    }
+
+    @ShellMethod(value = "print all books", key = {"print books", "print all"})
+    public void printAllBooks() {
+        bookService.printAllBooks();
+    }
+
+    @ShellMethod(value = "print books by Author name", key = {"print authors books", "print by author", "p a"})
+    public String printBooksByAuthorId(String name) {
+        return bookService.printBooksByAuthorName(name);
     }
 
 }
