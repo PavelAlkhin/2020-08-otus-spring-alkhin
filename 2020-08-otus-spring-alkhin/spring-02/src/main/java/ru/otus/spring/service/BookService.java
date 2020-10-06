@@ -11,8 +11,6 @@ public interface BookService {
     void printBooks(List<Book> books);
     void printAllBooks();
     List<Book> findByTite(String title);
-    List<Book> getBooksByAuthorId(Author author);
-    Author getAuthorById(Long id);
     List<Book> getBooksByAuthorName(String name);
-    String printBooksByAuthorName(String name);
+    void printBooksByAuthorName(String name);
 }
