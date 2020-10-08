@@ -2,6 +2,8 @@ package ru.otus.spring.service;
 
 import lombok.AllArgsConstructor;
 import lombok.val;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Author;
@@ -20,6 +22,7 @@ public class BookServiceImpl implements BookService{
 
     private final AuthorRepository authorRepositoryJpa;
     private final BookRepository bookRepositoryDataJpa;
+    private final Logger LOG = LoggerFactory.getLogger(BookServiceImpl.class);
 
     @Override
     @Transactional
@@ -33,11 +36,11 @@ public class BookServiceImpl implements BookService{
         val authors = Collections.singletonList(new Author(0, author));
         val genres = Collections.singletonList(new Genre(0, genre));
         bookRepositoryDataJpa.save(new Book(0, title, description, authors, genres));
+        LOG.info("save new book " + title);
     }
 
     @Override
-    @Transactional
-    public void printBooks(List<Book> books) {
+    public void printBooks(Iterable<Book> books) {
         for(Book book : books){
             System.out.println(book.toString());
         }
@@ -61,6 +64,8 @@ public class BookServiceImpl implements BookService{
     @Override
     @Transactional
     public List<Book> getBooksByAuthorName(String name) {
+
+        LOG.info("get book by author name " + name);
 
         val author = authorRepositoryJpa.findByName(name);
 

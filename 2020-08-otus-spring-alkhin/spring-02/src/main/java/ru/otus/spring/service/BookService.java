@@ -8,7 +8,7 @@ import java.util.List;
 public interface BookService {
     void saveBook(String title, String author, String genre, String description);
     int countBooks();
-    void printBooks(List<Book> books);
+    void printBooks(Iterable<Book> books);
     void printAllBooks();
     List<Book> findByTite(String title);
     List<Book> getBooksByAuthorName(String name);

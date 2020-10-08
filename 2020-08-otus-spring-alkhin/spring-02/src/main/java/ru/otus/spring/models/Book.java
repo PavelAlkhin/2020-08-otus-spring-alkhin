@@ -45,13 +45,13 @@ public class Book {
         String descriptionBook = "Book{" + "id=" + id +
                 "; title='" + title + "';" + " desc:'" + description + "'";
         String strAuthors = "; authors=";
-        for (int i = 0; i<authors.size();i++) {
-            strAuthors += " '" + authors.get(i).getName() + "'";
+        for(Author author : authors){
+            strAuthors += " '" + author.getName() + "'";
         }
 
         String strGenres = "; genres=";
-        for (int i=0; i<genres.size();i++) {
-            strGenres += " '" + genres.get(i).getName() + "'";
+        for (Genre genre : genres) {
+            strGenres += " '" + genre.getName() + "'";
         }
 
         descriptionBook += strAuthors + strGenres + "}";
