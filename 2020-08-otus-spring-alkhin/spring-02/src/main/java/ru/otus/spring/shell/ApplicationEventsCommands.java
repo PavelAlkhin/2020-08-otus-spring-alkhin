@@ -46,8 +46,8 @@ public class ApplicationEventsCommands {
     }
 
     @ShellMethod(value = "print books by Author name", key = {"print authors books", "print by author", "p a"})
-    public String printBooksByAuthorId(String name) {
-        return bookService.printBooksByAuthorName(name);
+    public void printBooksByAuthorId(String name) {
+        bookService.printBooksByAuthorName(name);
     }
 
 }
