@@ -7,6 +7,10 @@ import org.springframework.shell.standard.ShellMethod;
 import ru.otus.spring.service.BookService;
 import ru.otus.spring.service.ScannerService;
 
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
+
 @RequiredArgsConstructor
 @ShellComponent
 public class ApplicationEventsCommands {
@@ -21,16 +25,16 @@ public class ApplicationEventsCommands {
         System.out.println("Enter Title ");
         String title = scannerService.read();
 
-        System.out.println("Enter Author name ");
-        String authorName = scannerService.read();
+        List<String> authorNames = new ArrayList<>();
+        bookService.readListFromScanner(authorNames, "Authors");
 
-        System.out.println("Enter Genre type ");
-        String genreType = scannerService.read();
+        List<String> genresList = new ArrayList<>();
+        bookService.readListFromScanner(genresList, "Genres");
 
         System.out.println("Enter description ");
         String description = scannerService.read();
 
-        bookService.saveBook(title, authorName, genreType, description);
+        bookService.saveBook(title, authorNames, genresList, description);
 
         return "To save new book - type `save new book` or `save book`";
     }
@@ -48,6 +52,14 @@ public class ApplicationEventsCommands {
     @ShellMethod(value = "print books by Author name", key = {"print authors books", "print by author", "p a"})
     public void printBooksByAuthorId(String name) {
         bookService.printBooksByAuthorName(name);
+    }
+
+    @PostConstruct
+    public void fillInBooks(){
+
+        //bookService.saveBook("Book1", "Author1", "Genre1", "Description1");
+        //bookService.printAllBooks();
+
     }
 
 }

@@ -4,40 +4,36 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.val;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "books")
+@Document(collection = "books")
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private String id;
 
-    @Column(name = "title", nullable = false, unique = true)
     private String title;
 
-    @Column(name = "description")
     private String description;
 
-    @ManyToMany(targetEntity = Author.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "books_authors", joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id"))
-    @Fetch(FetchMode.SUBSELECT)
     private List<Author> authors;
 
-    @ManyToMany(targetEntity = Genre.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL )
-    @JoinTable(name = "books_genres", joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    @Fetch(FetchMode.SUBSELECT)
     private List<Genre> genres;
+
+    public Book(String title, String description, List<Author> authors, List<Genre> genres) {
+        this.title = title;
+        this.description = description;
+        this.authors = authors;
+        this.genres = genres;
+    }
 
     @Override
     public String toString() {

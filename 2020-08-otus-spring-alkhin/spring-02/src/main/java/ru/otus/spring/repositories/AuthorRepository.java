@@ -6,6 +6,6 @@ import ru.otus.spring.models.Book;
 
 import java.util.List;
 
-public interface AuthorRepository extends CrudRepository<Author, Long> {
+public interface AuthorRepository extends CrudRepository<Author, String> {
     Author findByName(String name);
 }
