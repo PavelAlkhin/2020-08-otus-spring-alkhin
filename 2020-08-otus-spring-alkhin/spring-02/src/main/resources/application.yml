@@ -14,14 +14,17 @@
 spring:
   data:
     mongodb:
+      port: 0
       database: books
+      #host: localhost
+      #initialization-mode: always
 
 logging:
   level:
     ROOT: ERROR
 
 mongock:
-  runner-type: "ApplicationRunner" # default
-  #runner-type: "InitializingBean"
+  #runner-type: "ApplicationRunner" # default
+  runner-type: "InitializingBean"
   change-logs-scan-package:
     - ru.otus.spring.mongock.changelog

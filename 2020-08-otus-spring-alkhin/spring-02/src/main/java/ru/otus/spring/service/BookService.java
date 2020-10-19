@@ -16,4 +16,6 @@ public interface BookService {
     void readListFromScanner(List<String> answerList, String enterType);
     int countAuthors();
     void printAllAuthors();
+
+    void printCommentsByTitle(String title);
 }

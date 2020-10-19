@@ -54,12 +54,9 @@ public class ApplicationEventsCommands {
         bookService.printBooksByAuthorName(name);
     }
 
-    @PostConstruct
-    public void fillInBooks(){
-
-        //bookService.saveBook("Book1", "Author1", "Genre1", "Description1");
-        //bookService.printAllBooks();
-
+    @ShellMethod(value = "print all book`s comments", key = {"print com book", "print comment by title", "p c"})
+    public void printCommentsByTitle(String title) {
+        bookService.printCommentsByTitle(title);
     }
 
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
+import ru.otus.spring.models.Comment;
 import ru.otus.spring.models.Genre;
 import ru.otus.spring.repositories.AuthorRepository;
 import ru.otus.spring.repositories.BookRepository;
@@ -55,11 +56,31 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    @Transactional
     public void printBooks(Iterable<Book> books) {
         for(Book book : books){
+
+            val title = book.getTitle();
+            val description = book.getDescription();
+            val authors = book.getAuthors();
+            val id = book.getId();
+            val genres = book.getGenres();
+
+            String descriptionBook = "Book{" + "id=" + id +
+                    "; title='" + title + "';" + " desc:'" + description + "'";
+            String strAuthors = "; authors=";
+            for(Author author : authors){
+                strAuthors += " '" + author.getName() + "'";
+            }
+
+            String strGenres = "; genres=";
+            for (Genre genre : genres) {
+                strGenres += " '" + genre.getName() + "'";
+            }
+
+            descriptionBook += strAuthors + strGenres + "}";
             System.out.println(book.toString());
         }
-
     }
 
     @Override
@@ -141,6 +162,20 @@ public class BookServiceImpl implements BookService{
     public void printAllAuthors() {
         val authors = authorRepository.findAll();
         printAuthors(authors);
+    }
+
+    @Override
+    public void printCommentsByTitle(String title) {
+        try{
+            val books = bookRepository.findByTitle(title);
+            for (Book book : books){
+                for(Comment com : book.getComments()){
+                    System.out.println(com.getText());
+                }
+            }
+        }catch (NullPointerException npe){
+            System.out.println("" + npe + "not found book with title: " + title);
+        }
     }
 
     private void printAuthors(Iterable<Author> authors) {

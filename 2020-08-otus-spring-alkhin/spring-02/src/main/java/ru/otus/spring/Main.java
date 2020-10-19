@@ -21,9 +21,9 @@ public class Main {
         SpringApplication.run(Main.class, args);
     }
 
-    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
-    @Autowired
-    BookService bookService;
+//    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
+//    @Autowired
+//    BookService bookService;
 
     @PostConstruct
     public void fillInBooks(){

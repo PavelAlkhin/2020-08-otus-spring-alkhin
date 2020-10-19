@@ -1,9 +1,6 @@
 package ru.otus.spring.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.val;
+import lombok.*;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -28,30 +25,13 @@ public class Book {
 
     private List<Genre> genres;
 
+    @Getter @Setter
+    private List<Comment> comments;
+
     public Book(String title, String description, List<Author> authors, List<Genre> genres) {
         this.title = title;
         this.description = description;
         this.authors = authors;
         this.genres = genres;
-    }
-
-    @Override
-    public String toString() {
-
-        String descriptionBook = "Book{" + "id=" + id +
-                "; title='" + title + "';" + " desc:'" + description + "'";
-        String strAuthors = "; authors=";
-        for(Author author : authors){
-            strAuthors += " '" + author.getName() + "'";
-        }
-
-        String strGenres = "; genres=";
-        for (Genre genre : genres) {
-            strGenres += " '" + genre.getName() + "'";
-        }
-
-        descriptionBook += strAuthors + strGenres + "}";
-
-        return descriptionBook;
     }
 }
