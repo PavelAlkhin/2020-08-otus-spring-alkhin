@@ -12,24 +12,11 @@ import java.sql.SQLException;
 
 @EnableMongock
 @EnableMongoRepositories
-//@Configuration
 @SpringBootApplication
-//@EnableJpaRepositories
 public class Main {
 
     public static void main(String[] args) throws SQLException {
         SpringApplication.run(Main.class, args);
     }
 
-//    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
-//    @Autowired
-//    BookService bookService;
-
-    @PostConstruct
-    public void fillInBooks(){
-
-        //bookService.saveBook("Book1", "Author1", "Genre1", "Description1");
-        //bookService.printAllBooks();
-
-    }
 }

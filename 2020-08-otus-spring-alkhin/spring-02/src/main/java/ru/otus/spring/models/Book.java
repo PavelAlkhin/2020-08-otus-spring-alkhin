@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -25,7 +26,7 @@ public class Book {
 
     private List<Genre> genres;
 
-    @Getter @Setter
+    @Getter
     private List<Comment> comments;
 
     public Book(String title, String description, List<Author> authors, List<Genre> genres) {
@@ -33,5 +34,17 @@ public class Book {
         this.description = description;
         this.authors = authors;
         this.genres = genres;
+    }
+
+    public void setComment(String comment){
+        if(comments == null) {
+            comments = new ArrayList<>();
+        }
+        comments.add(new Comment(comment));
+
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

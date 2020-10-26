@@ -18,10 +18,7 @@ public class Comment {
 
     private String text;
 
-    private Book book;
-
-    public Comment(String text, Book book) {
+    public Comment(String text) {
         this.text = text;
-        this.book = book;
     }
 }

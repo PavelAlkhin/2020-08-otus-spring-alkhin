@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- this is header-css -->
+    <link rel="stylesheet" type="text/css"  th:href="@{/../../css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/../../css/main.css}" />
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <h1>New Book:</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <!-- Book edition -->
+            <form id="newbook-form" th:action="@{/newbook}" th:method="post" action="newbook.html">
+
+                <label class="" for="holder-input">Title:</label>
+                <input class="form-control" id="holder-input" th:name="title" type="text" value="book title"/>
+
+                <label for="description-input">Short description:</label>
+                <input class="form-control" id="description-input" type="text" th:name="description"/>
+
+                <label for="authors-list">Authors:</label>
+                <select class="custom-select custom-select-lg mb-3" id="authors-list" th:name="authornames" multiple="multiple">
+                    <option
+                            th:each="author : ${authorList}"
+                            th:text="${author.name}"
+                            th:value="${author.id}">Open this select menu</option>
+                </select>
+
+                <label for="genres-list">Genres:</label>
+                <select id="genres-list" class="custom-select custom-select-lg mb-3" th:name="genrernames" multiple="multiple">
+                    <option
+                            th:each="genre : ${genreList}"
+                            th:text="${genre.name}"
+                            th:value="${genre.id}"></option>
+                </select>
+
+                <label for="comments-input">Comment:</label>
+                <input class="form-control" id="comments-input" th:name="comment" type="textarea" th:value="comment" value="book Comments"/>
+
+                <button class="form-control" type="submit" name="save">Save</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <footer>
+            <!-- FOOTER -->
+            <span>Books service</span>
+<!--            <script type="text/javascript" th:src="@{/../../js/main.css}"></script>-->
+        </footer>
+    </div>
+</div>
+</body>
+</html>
