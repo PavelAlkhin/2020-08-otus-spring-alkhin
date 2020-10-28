@@ -1,61 +1,50 @@
 package ru.otus.spring.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.val;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import lombok.*;
 
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "books")
+@Document(collection = "books")
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private String id;
 
-    @Column(name = "title", nullable = false, unique = true)
     private String title;
 
-    @Column(name = "description")
     private String description;
 
-    @ManyToMany(targetEntity = Author.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "books_authors", joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id"))
-    @Fetch(FetchMode.SUBSELECT)
     private List<Author> authors;
 
-    @ManyToMany(targetEntity = Genre.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL )
-    @JoinTable(name = "books_genres", joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    @Fetch(FetchMode.SUBSELECT)
     private List<Genre> genres;
 
-    @Override
-    public String toString() {
+    @Getter
+    private List<Comment> comments;
 
-        String descriptionBook = "Book{" + "id=" + id +
-                "; title='" + title + "';" + " desc:'" + description + "'";
-        String strAuthors = "; authors=";
-        for(Author author : authors){
-            strAuthors += " '" + author.getName() + "'";
+    public Book(String title, String description, List<Author> authors, List<Genre> genres) {
+        this.title = title;
+        this.description = description;
+        this.authors = authors;
+        this.genres = genres;
+    }
+
+    public void setComment(String comment){
+        if(comments == null) {
+            comments = new ArrayList<>();
         }
+        comments.add(new Comment(comment));
 
-        String strGenres = "; genres=";
-        for (Genre genre : genres) {
-            strGenres += " '" + genre.getName() + "'";
-        }
+    }
 
-        descriptionBook += strAuthors + strGenres + "}";
-
-        return descriptionBook;
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

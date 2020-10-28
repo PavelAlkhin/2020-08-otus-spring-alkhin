@@ -1,16 +1,30 @@
+#spring:
+#  datasource:
+#    url: jdbc:h2:mem:testdb
+##    data: data.sql
+#    initialization-mode: always
+
+#  jpa:
+#    generate-ddl: false
+#    hibernate:
+#      ddl-auto: none
+#
+#    show-sql: true
+
 spring:
-  datasource:
-    url: jdbc:h2:mem:testdb
-#    data: data.sql
-    initialization-mode: always
-
-  jpa:
-    generate-ddl: false
-    hibernate:
-      ddl-auto: none
-
-    show-sql: true
+  data:
+    mongodb:
+      port: 0
+      database: books
+      #host: localhost
+      #initialization-mode: always
 
 logging:
   level:
     ROOT: ERROR
+
+mongock:
+  #runner-type: "ApplicationRunner" # default
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.spring.mongock.changelog

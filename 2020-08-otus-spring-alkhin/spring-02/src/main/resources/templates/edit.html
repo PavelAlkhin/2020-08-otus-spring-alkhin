@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- this is header-css -->
+    <link rel="stylesheet" type="text/css"  th:href="@{/../../css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/../../css/main.css}" />
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <h1>Edit Book:</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <!-- Book edition -->
+            <form id="edit-form" th:action="@{/edit}" th:method="post" action="edit.html">
+
+                <label class="" for="id">Id:</label>
+                <input class="form-control" id="id" readonly="readonly" type="text"
+                       th:name="id"
+                       th:value="${book.id}" value="book id"/>
+
+                <label class="" for="title">Title:</label>
+                <input class="form-control" id="title" name="title" type="text"
+                       th:name="title"
+                       th:value="${book.title}" value="book title"/>
+
+                <label for="description-input">Short description:</label>
+                <input class="form-control" id="description-input" type="text"
+                       th:name="description"
+                       th:value="${book.description}" value="description"/>
+
+                <label for="authors-list">Authors:</label>
+                <select class="custom-select custom-select-lg mb-3" id="authors-list" th:name="authornames" multiple="multiple">
+                    <option
+                            th:each="author : ${authorList}"
+                            th:text="${author.name}"
+                            th:value="${author.id}"
+                            th:selected="${book.authors.contains(author)}" >Open this select menu
+                    </option>
+                </select>
+
+                <label for="genres-list" >Genres:</label>
+                <select id="genres-list" class="custom-select custom-select-lg mb-3" th:name="genrernames" multiple="multiple">
+                    <option
+                            th:each="genre : ${genreList}"
+                            th:text="${genre.name}"
+                            th:value="${genre.id}"
+                            th:selected="${book.genres.contains(genre)}" >
+                    </option>
+                </select>
+
+                <label for="comments-input">Comments:</label>
+                <span class="form-control" id="comments-input"
+                       th:each="comment : ${book.comments}"
+                       th:text="${comment.text}"
+                      value="book comment"></span>
+
+                <div>
+                    <button class="btn btn-success" type="submit" th:name="save" th:value="save">Save</button>
+                    <button class="btn btn-danger" type="submit" th:name="delete" th:value="delete">delete</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="row">
+
+        <footer>
+            <!-- FOOTER -->
+            <a th:href="@{/}"><span>Books service</span></a>
+            <script type="text/javascript" th:src="@{/../../js/main.css}"></script>
+        </footer>
+    </div>
+</div>
+</body>
+</html>
