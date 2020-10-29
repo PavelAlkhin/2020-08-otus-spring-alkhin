@@ -16,26 +16,26 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import({BookServiceImpl.class})
 class BookServiceImplTest {
 
-//    @Autowired
-//    BookServiceImpl bookService;
-//
-//    @DisplayName("должен правильно посчитать книги")
-//    @Test
-//    void countBooks() {
-//        assertThat(bookService.countBooks()).isEqualTo(12);
-//    }
-//
-//    @DisplayName("должен найти книгу по титлу")
-//    @Test
-//    void findByTite() {
-//        assertThat(bookService.findByTite("Book1")).hasSize(1);
-//    }
-//
-//    @DisplayName("должен найти книги по имени автора")
-//    @Test
-//    void getBooksByAuthorName() {
-//        assertThat(bookService.getBooksByAuthorName("Pushkin")).hasSize(8);
-//    }
+    @Autowired
+    BookServiceImpl bookService;
+
+    @DisplayName("должен правильно посчитать книги")
+    @Test
+    void countBooks() {
+        assertThat(bookService.countBooks()).isEqualTo(12);
+    }
+
+    @DisplayName("должен найти книгу по титлу")
+    @Test
+    void findByTite() {
+        assertThat(bookService.findByTite("Book1")).hasSize(1);
+    }
+
+    @DisplayName("должен найти книги по имени автора")
+    @Test
+    void getBooksByAuthorName() {
+        assertThat(bookService.getBooksByAuthorName("Pushkin")).hasSize(8);
+    }
 
 
 }
