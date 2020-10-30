@@ -4,14 +4,17 @@
     <!-- this is header-css -->
     <link rel="stylesheet" type="text/css"  th:href="@{/../../css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/../../css/main.css}" />
+
+    <script src="webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container col-10">
+<div class="container">
     <div class="row col-10">
         <h1>Edit Book:</h1>
     </div>
     <div class="row col-10">
-        <div class="col-md-4">
+        <div class="col-md-10">
             <!-- Book edition -->
             <form id="edit-form" th:action="@{/edit}" th:method="post" action="edit.html">
 
@@ -79,5 +82,6 @@
         </footer>
     </div>
 </div>
+
 </body>
 </html>
