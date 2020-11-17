@@ -4,6 +4,9 @@
     <!-- this is header-css -->
     <link rel="stylesheet" type="text/css"  th:href="@{/../../css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/../../css/main.css}" />
+
+    <script src="webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -13,34 +16,8 @@
     <div class="row">
         <div class="col-md-4">
             <!-- Book edition -->
-            <form id="newbook-form" th:action="@{/newbook}" th:method="post" action="newbook.html">
+            <form id="newbook-form">
 
-                <label class="" for="holder-input">Title:</label>
-                <input class="form-control" id="holder-input" th:name="title" type="text" value="book title"/>
-
-                <label for="description-input">Short description:</label>
-                <input class="form-control" id="description-input" type="text" th:name="description"/>
-
-                <label for="authors-list">Authors:</label>
-                <select class="custom-select custom-select-lg mb-3" id="authors-list" th:name="authornames" multiple="multiple">
-                    <option
-                            th:each="author : ${authorList}"
-                            th:text="${author.name}"
-                            th:value="${author.id}">Open this select menu</option>
-                </select>
-
-                <label for="genres-list">Genres:</label>
-                <select id="genres-list" class="custom-select custom-select-lg mb-3" th:name="genrernames" multiple="multiple">
-                    <option
-                            th:each="genre : ${genreList}"
-                            th:text="${genre.name}"
-                            th:value="${genre.id}"></option>
-                </select>
-
-                <label for="comments-input">Comment:</label>
-                <input class="form-control" id="comments-input" th:name="comment" type="textarea" th:value="comment" value="book Comments"/>
-
-                <button class="form-control" type="submit" name="save">Save</button>
             </form>
         </div>
     </div>
@@ -48,9 +25,74 @@
         <footer>
             <!-- FOOTER -->
             <span>Books service</span>
-<!--            <script type="text/javascript" th:src="@{/../../js/main.css}"></script>-->
         </footer>
     </div>
 </div>
+
+<script>
+    $(function () {
+        let params = (new URL(document.location)).searchParams;
+
+        $.get('/api/authorsgenres').done(function (book) {
+
+            var body = ``;
+
+            body += `<label class="" for="title">Title:</label>`;
+            body += `<input class="form-control" id="title" type="text" name="title"`;
+            body += `value=""/>`;
+
+            body += `<label class="" for="description">Description:</label>`;
+            body += `<input class="form-control" id="description" type="text"  name="description"`;
+            body += `value=""/>`;
+
+            body += `<label for="authornames">Authors:</label>`;
+            body += `<select class="custom-select custom-select-lg mb-3" id="authornames" name="authornames" multiple="multiple">`;
+            book.authorList.forEach(function (author) {
+                body += `<option value="${author.id}">${author.name}</option>`;
+            });
+            body += `</select>`;
+            body += `<label for="genrernames">Genres:</label>`;
+            body += `<select class="custom-select custom-select-lg mb-3" id="genrernames" name="genrernames" multiple="multiple">`;
+            book.genreList.forEach(function (genre) {
+                body += `<option value="${genre.id}">${genre.name}</option>`;
+            });
+            body += `</select>`;
+
+            body += `<label for="newcomment">New comment:</label>
+            <input type="text" id="newcomment" class="form-control" name="newcomment" />`;
+
+            body += `
+                 <div id="save-button" class="btn btn-success" onclick="savebook()">save</div>            `;
+
+            $('#newbook-form').append(body);
+
+        })
+    });
+
+    function savebook(){
+
+        var data = {};
+
+        $('#newbook-form').find ('input, textearea, select').each(function() {
+            data[this.name] = $(this).val();
+        });
+
+        $.ajax({
+            type : "PUT",
+            url : "/api/savenew",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType : 'json',
+            success: function (result) {
+                window.location.href = "/";
+            },
+            error: function (e) {
+                window.location.href = "/";
+            }
+        })
+
+    };
+</script>
+
 </body>
 </html>

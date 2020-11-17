@@ -89,28 +89,28 @@ public class DatabaseChangelog {
     @ChangeSet(order = "011", id = "insertComment2", author = "alkhin")
     public void insertComment2(BookRepository repBook) {
         Book book = repBook.findByTitle("Book1").get(0);
-        book.setComment("I like it");
+        book.addComment("I like it");
         repBook.save(book);
     }
 
     @ChangeSet(order = "012", id = "insertComment3", author = "alkhin")
     public void insertComment3(BookRepository repBook) {
         Book book = repBook.findByTitle("Book1").get(0);
-        book.setComment("I like it too");
+        book.addComment("I like it too");
         repBook.save(book);
     }
 
     @ChangeSet(order = "013", id = "insertComment4", author = "alkhin")
     public void insertComment4(BookRepository repBook) {
         Book book = repBook.findByTitle("Book2").get(0);
-        book.setComment("Very bad");
+        book.addComment("Very bad");
         repBook.save(book);
     }
 
     @ChangeSet(order = "013", id = "insertComment5", author = "alkhin")
     public void insertComment5(BookRepository repBook) {
         Book book = repBook.findByTitle("Book2").get(0);
-        book.setComment("Nerver buy it, please.");
+        book.addComment("Nerver buy it, please.");
         repBook.save(book);
     }
 }

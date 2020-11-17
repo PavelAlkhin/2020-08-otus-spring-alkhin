@@ -17,6 +17,6 @@ spring:
 
     show-sql: true
 
-logging:
-  level:
-    ROOT: ERROR
+#logging:
+#  level:
+#    ROOT: ERROR
