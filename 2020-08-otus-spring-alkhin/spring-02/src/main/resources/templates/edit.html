@@ -4,14 +4,17 @@
     <!-- this is header-css -->
     <link rel="stylesheet" type="text/css"  th:href="@{/../../css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/../../css/main.css}" />
+
+    <script src="webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="container">
-    <div class="row">
+    <div class="row col-10">
         <h1>Edit Book:</h1>
     </div>
-    <div class="row">
-        <div class="col-md-4">
+    <div class="row col-10">
+        <div class="col-md-10">
             <!-- Book edition -->
             <form id="edit-form" th:action="@{/edit}" th:method="post" action="edit.html">
 
@@ -50,11 +53,16 @@
                     </option>
                 </select>
 
-                <label for="comments-input">Comments:</label>
-                <span class="form-control" id="comments-input"
-                       th:each="comment : ${book.comments}"
-                       th:text="${comment.text}"
-                      value="book comment"></span>
+                <label for="comments">Comments:</label>
+                <ul class="list-group" id="comments" th:name="comments">
+                    <li class="list-group-item"
+                        th:each="comment : ${book.comments}"
+                        th:text="${comment.text}">
+                    </li>
+                </ul>
+
+                <label for="comment-input">New comment:</label>
+                <input type="text" id="comment-input" class="form-control" th:name="newcomment" />
 
                 <div>
                     <button class="btn btn-success" type="submit" th:name="save" th:value="save">Save</button>
@@ -65,7 +73,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row col-10">
 
         <footer>
             <!-- FOOTER -->
@@ -74,5 +82,6 @@
         </footer>
     </div>
 </div>
+
 </body>
 </html>

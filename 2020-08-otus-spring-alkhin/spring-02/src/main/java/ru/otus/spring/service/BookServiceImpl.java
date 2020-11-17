@@ -117,7 +117,6 @@ public class BookServiceImpl implements BookService{
     @Override
     @Transactional
     public void printBooksByAuthorName(String name) {
-//        val books = getBooksByAuthorName(name);
         Author author = authorRepository.findByName(name);
         try {
             System.out.println(author.getName());

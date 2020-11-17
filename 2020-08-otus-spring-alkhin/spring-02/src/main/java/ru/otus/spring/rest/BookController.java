@@ -8,15 +8,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
-import ru.otus.spring.models.Comment;
 import ru.otus.spring.models.Genre;
 import ru.otus.spring.repositories.AuthorRepository;
 import ru.otus.spring.repositories.BookRepository;
 import ru.otus.spring.repositories.GenreRepository;
+import ru.otus.spring.rest.dto.BookDto;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Controller
@@ -58,13 +59,16 @@ public class BookController {
             @RequestParam(value = "description", required = false) String description,
             @RequestParam(value = "authornames", required = false) String authornames,
             @RequestParam(value = "genrernames", required = false) String genrernames,
-            @RequestParam(value = "comment", required = false) String comment,
+            @RequestParam(value = "newcomment", required = false) String newcomment,
+            @RequestParam(value = "comments", required = false) String comments,
             Model model
                             ) {
         if(delete != null){
             repBook.delete(book);
             return "redirect:/";
         }
+
+        Book rBook = repBook.findById(book.getId()).orElseThrow();
 
         List<Author> authorList = new ArrayList<>();
         List<Genre> genreList = new ArrayList<>();
@@ -80,7 +84,8 @@ public class BookController {
 
         Book bookForSave = new Book(title, description, authorList, genreList);
         bookForSave.setId(id);
-        bookForSave.setComment(comment);
+        bookForSave.setComments(rBook.getComments());
+        bookForSave.setComment(newcomment);
         Book saved = repBook.save(bookForSave);
         model.addAttribute(saved);
         return "redirect:edit?id="+saved.getId();
