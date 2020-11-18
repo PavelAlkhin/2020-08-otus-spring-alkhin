@@ -1,18 +1,39 @@
 package ru.otus.spring.rest;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.servlet.function.RouterFunctions;
+import ru.otus.spring.models.Book;
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
 class BookControllerRestTest {
+
+//    @Autowired
+//    private RouterFunction route;
+
+    @Autowired
+    private WebTestClient webClient;
 
     @Test
     void getAllBooks() {
+//        WebTestClient client = WebTestClient
+//                .bindToRouterFunction(route)
+//                .build();
+//        client.get()
+//                .uri("/api/books")
+//                .exchange()
+//                .expectStatus()
+//                .isOk();
+
+        webClient.get().uri("/api/books/{id}", "Test")
+                .header(HttpHeaders.ACCEPT, "application/json")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(Book.class);
     }
 
     @Test

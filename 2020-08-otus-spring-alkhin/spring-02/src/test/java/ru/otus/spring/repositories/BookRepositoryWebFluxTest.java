@@ -2,22 +2,21 @@ package ru.otus.spring.repositories;
 
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit4.SpringRunner;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 import ru.otus.spring.models.Book;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.stream.Collectors;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-//@ExtendWith(SpringRunner.class)
-@SpringBootTest
 @DataMongoTest
 class BookRepositoryWebFluxTest {
 
@@ -36,13 +35,26 @@ class BookRepositoryWebFluxTest {
     }
 
     @Test
-    public void findAll() {
+    public void shouldFindAll() {
         Flux<Book> bookFlux = bookRepository.findAll();
 
         StepVerifier
-                .create(bookFlux)
-                .assertNext(book1 -> assertNotNull(book1.getTitle()))
+                .create(bookFlux.collect(Collectors.toList()))
+                .assertNext(book1 -> assertEquals(book1.size(),2))
                 .expectComplete()
-                .verify();
+                .verify()
+        ;
+    }
+
+    @Test
+    public void shouldSaveBook(){
+        bookRepository.save(new Book("3","333", new ArrayList<>(), new ArrayList<>())).subscribe();
+
+        StepVerifier
+                .create(bookRepository.findAll())
+                .expectNextCount(3)
+                .expectComplete()
+                .verify()
+        ;
     }
 }

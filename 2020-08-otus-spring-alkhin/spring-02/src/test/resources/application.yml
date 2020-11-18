@@ -20,3 +20,9 @@ spring:
 #logging:
 #  level:
 #    ROOT: ERROR
+
+mongock:
+  #runner-type: "ApplicationRunner" # default
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.spring.mongock.changelog
