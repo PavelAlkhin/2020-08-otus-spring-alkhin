@@ -3,8 +3,6 @@ package ru.otus.spring.rest.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.reactivestreams.Publisher;
-import org.reactivestreams.Subscriber;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Comment;

@@ -23,5 +23,4 @@ public class BookAuthorsGenresDto {
         this.authorList = authorList;
         this.genreList = genreList;
     }
-
 }
