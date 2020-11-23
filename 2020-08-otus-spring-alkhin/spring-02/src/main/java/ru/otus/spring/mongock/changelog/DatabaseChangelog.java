@@ -4,14 +4,12 @@ import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import lombok.val;
 import org.bson.Document;
-import ru.otus.spring.models.Author;
-import ru.otus.spring.models.Book;
-import ru.otus.spring.models.Comment;
-import ru.otus.spring.models.Genre;
-import ru.otus.spring.repositories.AuthorRepository;
-import ru.otus.spring.repositories.BookRepository;
-import ru.otus.spring.repositories.GenreRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import ru.otus.spring.models.*;
+import ru.otus.spring.repositories.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +17,9 @@ import java.util.List;
 
 @ChangeLog
 public class DatabaseChangelog {
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @ChangeSet(order = "001", id = "dropDb", author = "alkhin", runAlways = true)
     public void dropDb(MongoDatabase db) {
@@ -113,4 +114,56 @@ public class DatabaseChangelog {
         book.addComment("Nerver buy it, please.");
         repBook.save(book);
     }
+
+    @ChangeSet(order = "014", id = "insertUser", author = "alkhin")
+    public void insertUser(UserRepository userRep, RoleRepository roleRep) {
+
+        val userUser = new User("user");
+        userUser.setPassword("111");
+        userUser.setActive(true);
+        userUser.setName("userovich");
+        userUser.setEmail("aaa@qqq");
+        userUser.setLastName("userov");
+
+        User userFromDB = userRep.findByUserName(userUser.getUserName());
+
+        if (userFromDB != null) {
+            return;
+        }
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+        Role roleUser = roleRep.findByRole("ROLE_USER");
+        if(roleUser == null){
+            roleUser = roleRep.save(new Role("ROLE_USER"));
+        }
+
+        userUser.setRoles(Collections.singleton(roleUser));
+        userUser.setPassword(bCryptPasswordEncoder.encode(userUser.getPassword()));
+        userRep.save(userUser);
+
+
+        val userAdmin = new User("admin");
+        userAdmin.setPassword("111");
+        User userFromDB2 = userRep.findByUserName(userAdmin.getUserName());
+
+        if (userFromDB2 != null) {
+            return;
+        }
+
+        Role roleAdmin = roleRep.findByRole("ROLE_ADMIN");
+        if(roleAdmin == null){
+            roleAdmin = roleRep.save(new Role("ROLE_ADMIN"));
+        }
+        userAdmin.setActive(true);
+        userAdmin.setName("adminych");
+        userAdmin.setEmail("adm@qqq");
+        userAdmin.setLastName("adminov");
+
+        userAdmin.setRoles(Collections.singleton(roleAdmin));
+        userAdmin.setPassword(bCryptPasswordEncoder.encode(userAdmin.getPassword()));
+        userRep.save(userAdmin);
+
+    }
+
 }

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface GenreRepository extends CrudRepository<Genre, String> {
     Genre findByName(String name);
-    List<Genre> findAllByIdIn(List<String> ids);
+    List<Genre> findAllByIdIn(List<String> id);
 }

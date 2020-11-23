@@ -16,17 +16,17 @@ import java.io.IOException;
 /**
  * обрабатывает 403 ошибку перенаправляя в случае ее вызова на /403 страницу
  */
- 
+
 @Component
-public class MyAccessDeniedHendler implements AccessDeniedHandler {
- 
-    private static Logger logger = LoggerFactory.getLogger(MyAccessDeniedHendler.class);
- 
+public class MyAccessDeniedHandler implements AccessDeniedHandler {
+
+    private static Logger logger = LoggerFactory.getLogger(MyAccessDeniedHandler.class);
+
     @Override
     public void handle(HttpServletRequest httpServletRequest,
                        HttpServletResponse httpServletResponse,
                        AccessDeniedException e) throws IOException, ServletException {
- 
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){
             logger.info("User '" + auth.getName() + "' attempted to access the protected URL: " + httpServletRequest.getRequestURI());
