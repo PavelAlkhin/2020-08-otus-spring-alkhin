@@ -19,9 +19,9 @@ spring:
       #host: localhost
       #initialization-mode: always
 
-logging:
-  level:
-    ROOT: ERROR
+#logging:
+#  level:
+#    ROOT: ERROR
 
 mongock:
   #runner-type: "ApplicationRunner" # default

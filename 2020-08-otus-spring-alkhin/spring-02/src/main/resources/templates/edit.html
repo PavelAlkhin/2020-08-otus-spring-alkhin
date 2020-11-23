@@ -16,60 +16,8 @@
     <div class="row col-10">
         <div class="col-md-10">
             <!-- Book edition -->
-            <form id="edit-form" th:action="@{/edit}" th:method="post" action="edit.html">
-
-                <label class="" for="id">Id:</label>
-                <input class="form-control" id="id" readonly="readonly" type="text"
-                       th:name="id"
-                       th:value="${book.id}" value="book id"/>
-
-                <label class="" for="title">Title:</label>
-                <input class="form-control" id="title" name="title" type="text"
-                       th:name="title"
-                       th:value="${book.title}" value="book title"/>
-
-                <label for="description-input">Short description:</label>
-                <input class="form-control" id="description-input" type="text"
-                       th:name="description"
-                       th:value="${book.description}" value="description"/>
-
-                <label for="authors-list">Authors:</label>
-                <select class="custom-select custom-select-lg mb-3" id="authors-list" th:name="authornames" multiple="multiple">
-                    <option
-                            th:each="author : ${authorList}"
-                            th:text="${author.name}"
-                            th:value="${author.id}"
-                            th:selected="${book.authors.contains(author)}" >Open this select menu
-                    </option>
-                </select>
-
-                <label for="genres-list" >Genres:</label>
-                <select id="genres-list" class="custom-select custom-select-lg mb-3" th:name="genrernames" multiple="multiple">
-                    <option
-                            th:each="genre : ${genreList}"
-                            th:text="${genre.name}"
-                            th:value="${genre.id}"
-                            th:selected="${book.genres.contains(genre)}" >
-                    </option>
-                </select>
-
-                <label for="comments">Comments:</label>
-                <ul class="list-group" id="comments" th:name="comments">
-                    <li class="list-group-item"
-                        th:each="comment : ${book.comments}"
-                        th:text="${comment.text}">
-                    </li>
-                </ul>
-
-                <label for="comment-input">New comment:</label>
-                <input type="text" id="comment-input" class="form-control" th:name="newcomment" />
-
-                <div>
-                    <button class="btn btn-success" type="submit" th:name="save" th:value="save">Save</button>
-                    <button class="btn btn-danger" type="submit" th:name="delete" th:value="delete">delete</button>
-                </div>
+            <form id="edit-form">
             </form>
-
         </div>
     </div>
 
@@ -82,6 +30,121 @@
         </footer>
     </div>
 </div>
+
+<script>
+    $(function () {
+        let params = (new URL(document.location)).searchParams;
+
+        $.get('/api/books/'+params.get("id")).done(function (book) {
+
+            var body = ``;
+
+            body += `<label class="" for="id">Id:</label>`;
+            body += `<input class="form-control" id="id" readonly="readonly" type="text" name="id"`;
+            body += `value="` + book.book.id + `"/>`;
+
+            body += `<label class="" for="title">Title:</label>`;
+            body += `<input class="form-control" id="title" type="text" name="title"`;
+            body += `value="` + book.book.title + `"/>`;
+
+            body += `<label class="" for="description">Description:</label>`;
+            body += `<input class="form-control" id="description" type="text"  name="description"`;
+            body += `value="` + book.book.description + `"/>`;
+
+            body += `<label for="authornames">Authors:</label>`;
+            body += `<select class="custom-select custom-select-lg mb-3" id="authornames" name="authornames" multiple="multiple">`;
+            book.authorList.forEach(function (author) {
+                body += `<option value="${author.id}"`;
+                book.book.authors.forEach(function(authBook){
+                        if (authBook.id == author.id){
+                            body += ` selected="selected"`;
+                        }
+                    }
+                );
+                body += `>${author.name} </option>`;
+            });
+            body += `</select>`;
+
+            body += `<label for="genrernames">Genres:</label>`;
+            body += `<select class="custom-select custom-select-lg mb-3" id="genrernames" name="genrernames" multiple="multiple">`;
+            book.genreList.forEach(function (genre) {
+                body += `<option value="${genre.id}"`;
+                book.book.genres.forEach(function(genreBook){
+                        if (genreBook.id == genre.id){
+                            body += ` selected="selected"`;
+                        }
+                    }
+                );
+                body += `>${genre.name} </option>`;
+            });
+            body += `</select>`;
+
+            body += `<label for="comments">Comments:</label>`;
+            body += `<div id="comments" name="comments">`;
+            book.book.comments.forEach(function (comment) {
+                 body += `<div>${comment.text}</div>`;
+            });
+            body += `</div>`;
+
+            body += `<label for="newcomment">New comment:</label>
+            <input type="text" id="newcomment" class="form-control" name="newcomment" />`;
+
+            body += `
+                 <div id="save-button" class="btn btn-success" onclick="savebook()">save</div>
+                 <div id="delete-button" class="btn btn-danger" onclick="deletebook()">delete</div>
+            `;
+
+            $('#edit-form').append(body);
+
+        })
+    });
+
+   function savebook(){
+
+       var data = {};
+
+       $('#edit-form').find ('input, textearea, select').each(function() {
+           data[this.name] = $(this).val();
+       });
+
+       $.ajax({
+            type : "PUT",
+            url : "/api/save",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType : 'json',
+            success: function (result) {
+                window.location.href = "/books?id="+data["id"];
+            },
+            error: function (e) {
+                window.location.href = "/books?id="+data["id"];
+            }
+        })
+
+   };
+
+    function deletebook(){
+        let params = (new URL(document.location)).searchParams;
+
+        var id = params.get("id");
+
+        $.ajax({
+            type : "DELETE",
+            url : "/api/books/delete/"+id,
+            data: {"id" : id},
+            contentType: "application/json",
+            dataType : 'json',
+            success: function (result) {
+                window.location.href = "/";
+            },
+            error: function (e) {
+                console.log(e);
+                window.location.href = "/";
+            }
+        })
+    };
+
+</script>
 
 </body>
 </html>

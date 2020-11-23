@@ -22,8 +22,10 @@ public class Book {
 
     private String description;
 
+    @Setter @Getter
     private List<Author> authors;
 
+    @Setter @Getter
     private List<Genre> genres;
 
     @Getter
@@ -36,7 +38,7 @@ public class Book {
         this.genres = genres;
     }
 
-    public void setComment(String comment){
+    public void addComment(String comment){
         if(comments == null) {
             comments = new ArrayList<>();
         }

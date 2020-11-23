@@ -34,6 +34,10 @@ public class Author {
         this.name = name;
     }
 
+    public static Author AuthorToDTO(Author author) {
+        return new Author(author.getId(), author.getName(), author.getBooks());
+    }
+
     public String printBooks(){
         String strBooks = "Books=";
         for (int i = 0; books.size()>i;i++){
