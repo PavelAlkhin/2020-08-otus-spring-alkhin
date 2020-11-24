@@ -31,7 +31,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web
                 .ignoring()
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
@@ -57,38 +57,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new PasswordEncoder() {
-//            @Override
-//            public String encode(CharSequence charSequence) {
-//                return charSequence.toString();
-//            }
-//
-//            @Override
-//            public boolean matches(CharSequence charSequence, String s) {
-//                return charSequence.toString().equals(s);
-//            }
-//        };
-//    }
-
-//    @Autowired
-//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("admin").password("password").roles("ADMIN")
-//                .and()
-//                .withUser("user").password("password").roles("USER")
-//                .and()
-//                .withUser("manager").password("manager").roles("MANAGER", "USER");
-//        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
-//    }
-
-//    @Autowired
-//    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-//                .userDetailsService(userService)
-//                .passwordEncoder(bCryptPasswordEncoder());
-//    }
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth

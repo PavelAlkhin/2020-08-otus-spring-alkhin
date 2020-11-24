@@ -20,7 +20,7 @@ import java.io.IOException;
 @Component
 public class MyAccessDeniedHandler implements AccessDeniedHandler {
 
-    private static Logger logger = LoggerFactory.getLogger(MyAccessDeniedHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(MyAccessDeniedHandler.class);
 
     @Override
     public void handle(HttpServletRequest httpServletRequest,
