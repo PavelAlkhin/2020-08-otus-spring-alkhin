@@ -1,23 +1,31 @@
 package ru.otus.spring.models;
 
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.val;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.List;
 
-@Data
+//@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "authors")
+@Entity
+@Table(name = "authors")
 public class Author {
 
     @Id
+    @Column
     private String id;
 
+    @Column
     private String name;
 
+    
     private List<Book> books;
 
     public Author(String id, String name) {
