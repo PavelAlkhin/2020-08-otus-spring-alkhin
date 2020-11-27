@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
-import ru.otus.spring.models.Comment;
+import ru.otus.spring.models.BookComment;
 import ru.otus.spring.models.Genre;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class BookDto {
 
-    private String id;
+    private long id;
 
     private String title;
 
@@ -26,7 +26,7 @@ public class BookDto {
 
     private List<Genre> genres;
 
-    private List<Comment> comments;
+    private List<BookComment> comments;
 
     public BookDto(Book book, Author author, Genre genre) {
     }

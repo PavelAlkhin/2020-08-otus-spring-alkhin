@@ -1,25 +1,21 @@
 package ru.otus.spring.models;
 
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "genres")
+@Entity
+@Table(name = "genres")
 public class Genre {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    public Genre(String name) {
-        this.name = name;
-    }
-
-    public static Genre GenreToDTO(Genre genre) {
-        return new Genre(genre.getId(), genre.getName());
-    }
 }

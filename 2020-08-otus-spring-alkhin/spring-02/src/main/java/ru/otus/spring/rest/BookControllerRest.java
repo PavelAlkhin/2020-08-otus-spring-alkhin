@@ -2,14 +2,15 @@ package ru.otus.spring.rest;
 
 import lombok.AllArgsConstructor;
 import lombok.val;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
-import ru.otus.spring.repositories.*;
+import ru.otus.spring.repositories.AuthorRepository;
+import ru.otus.spring.repositories.BookRepository;
+import ru.otus.spring.repositories.GenreRepository;
 import ru.otus.spring.rest.dto.BookAuthorsGenresDto;
 import ru.otus.spring.rest.dto.FormBookForSaveDto;
 import ru.otus.spring.rest.dto.FormBookForSaveNewBookDto;
@@ -26,13 +27,17 @@ public class BookControllerRest {
     private final AuthorRepository repAuthor;
     private final GenreRepository repGenre;
 
+    private ArrayList<Genre> getGenreList() {
+        return new ArrayList<>();
+    }
+
     @GetMapping("/books")
     public List<Book> getAllBooks() {
         return repBook.findAll();
     }
 
     @RequestMapping(value = "/books/{id}", method = RequestMethod.GET)
-    public ResponseEntity<BookAuthorsGenresDto> editPage(@PathVariable("id") String id) {
+    public ResponseEntity<BookAuthorsGenresDto> editPage(@PathVariable("id") long id) {
         System.out.println("чтение по  "+id);
 
         List<Author> authorList = new ArrayList<>();
@@ -47,11 +52,6 @@ public class BookControllerRest {
                     genreList
                 )
         );
-    }
-
-    @NotNull
-    private ArrayList<Genre> getGenreList() {
-        return new ArrayList<>();
     }
 
     @ExceptionHandler
@@ -72,7 +72,7 @@ public class BookControllerRest {
 
     @ExceptionHandler
     @RequestMapping(value = "/books/delete/{id}",  produces = "application/json", method = RequestMethod.DELETE)
-    public void deleteBook(@PathVariable(value = "id") String id){
+    public void deleteBook(@PathVariable(value = "id") long id){
         System.out.println("удаление " + id);
         repBook.deleteById(id);
     }

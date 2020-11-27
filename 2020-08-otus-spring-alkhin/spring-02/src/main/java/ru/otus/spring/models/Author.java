@@ -1,17 +1,17 @@
 package ru.otus.spring.models;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.val;
-import org.springframework.data.annotation.Id;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
-//@Data
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -19,16 +19,19 @@ import java.util.List;
 public class Author {
 
     @Id
-    @Column
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    @Column
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    
+    @ManyToMany(targetEntity = Book.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "books_authors", joinColumns = @JoinColumn(name = "author_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    @Fetch(FetchMode.SUBSELECT)
     private List<Book> books;
 
-    public Author(String id, String name) {
+    public Author(long id, String name) {
         this.id = id;
         this.name = name;
     }

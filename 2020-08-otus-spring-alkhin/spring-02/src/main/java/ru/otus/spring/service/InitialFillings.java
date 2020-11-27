@@ -1,51 +1,30 @@
-package ru.otus.spring;
+package ru.otus.spring.service;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 import ru.otus.spring.models.Role;
 import ru.otus.spring.models.User;
 import ru.otus.spring.repositories.RoleRepository;
 import ru.otus.spring.repositories.UserRepository;
-import ru.otus.spring.service.InitialFillings;
 
 import java.util.Collections;
 
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-@SpringBootApplication
+@Service
 @AllArgsConstructor
-@EnableJpaRepositories
-@Configuration
-public class Main {
+@NoArgsConstructor
+public class InitialFillings {
 
     @Autowired
-    private static InitialFillings initialFillings;
+    private UserRepository userRep;
 
     @Autowired
-    private static UserRepository userRep;
+    private RoleRepository roleRep;
 
-    @Autowired
-    private static RoleRepository roleRep;
-
-    public static void main(String[] args) {
-
-        SpringApplication.run(Main.class, args);
-
-        fillUsers();
-
-    }
-
-    @Bean
-    public static void fillUsers() {
+    public void fillUsers() {
 
         val userUser = new User("user");
         userUser.setPassword("111");
@@ -93,6 +72,4 @@ public class Main {
         userAdmin.setPassword(bCryptPasswordEncoder.encode(userAdmin.getPassword()));
         userRep.save(userAdmin);
     }
-
-
 }

@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @Getter
 public class FormBookForSaveDto {
-    private String id;
+    private long id;
     private String title;
     private String description;
     private List<String> authornames;
