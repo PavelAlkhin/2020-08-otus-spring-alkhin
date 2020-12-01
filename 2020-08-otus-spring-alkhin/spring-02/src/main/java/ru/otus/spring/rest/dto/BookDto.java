@@ -1,6 +1,5 @@
 package ru.otus.spring.rest.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import ru.otus.spring.models.Author;
@@ -12,8 +11,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@SuppressWarnings("all")
-@AllArgsConstructor
 public class BookDto {
 
     private long id;
@@ -31,8 +28,12 @@ public class BookDto {
     public BookDto(Book book, Author author, Genre genre) {
     }
 
-    public static BookDto toDto(Book book) {
-        return new BookDto(book.getId(), book.getTitle(), book.getDescription(), book.getAuthors(), book.getGenres(), book.getComments());
+    public BookDto(long id, String title, String description, List<Author> authors, List<Genre> genres, List<BookComment> comments) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.authors = authors;
+        this.genres = genres;
+        this.comments = comments;
     }
-
 }

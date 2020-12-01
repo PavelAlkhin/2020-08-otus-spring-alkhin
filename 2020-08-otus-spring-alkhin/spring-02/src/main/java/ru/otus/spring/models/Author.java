@@ -1,14 +1,11 @@
 package ru.otus.spring.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "authors")
 public class Author {
@@ -22,6 +19,13 @@ public class Author {
 
     public Author(String name) {
         this.name = name;
+    }
+
+    public Author() {
+
+    }
+
+    public Author(long id, String name) {
     }
 
     public static Author AuthorToDTO(Author author) {

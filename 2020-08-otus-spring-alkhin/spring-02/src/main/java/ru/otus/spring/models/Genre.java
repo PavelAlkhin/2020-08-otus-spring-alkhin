@@ -1,12 +1,12 @@
 package ru.otus.spring.models;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "genres")
 public class Genre {
@@ -18,4 +18,11 @@ public class Genre {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
+    public Genre(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Genre() {
+    }
 }

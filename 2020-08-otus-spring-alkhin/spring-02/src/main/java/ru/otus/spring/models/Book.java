@@ -8,9 +8,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "books")
 public class Book {
@@ -50,6 +49,18 @@ public class Book {
         this.description = description;
         this.authors = authors;
         this.genres = genres;
+    }
+
+    public Book(long id, String title, String description, List<Author> authors, List<Genre> genres, List<BookComment> comments) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.authors = authors;
+        this.genres = genres;
+        this.comments = comments;
+    }
+
+    public Book() {
     }
 
     public void addComment(String comment){

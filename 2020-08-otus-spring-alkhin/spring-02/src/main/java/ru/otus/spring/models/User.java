@@ -8,17 +8,13 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int id;
+    private long id;
 
     @Column(name = "username")
     private String userName;
@@ -51,5 +47,18 @@ public class User {
         this.password = password;
     }
 
+    public User(long id, String userName, String email, String password, String name, String lastName, Boolean active, Set<Role> roles) {
+        this.id = id;
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.lastName = lastName;
+        this.active = active;
+        this.roles = roles;
+    }
 
+    public User() {
+
+    }
 }

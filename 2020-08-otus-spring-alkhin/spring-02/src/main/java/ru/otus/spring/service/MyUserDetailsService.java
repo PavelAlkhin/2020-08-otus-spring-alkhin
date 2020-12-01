@@ -1,6 +1,6 @@
 package ru.otus.spring.service;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,11 +16,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@AllArgsConstructor
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
     @Override
     @Transactional

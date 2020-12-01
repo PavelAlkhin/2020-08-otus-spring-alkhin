@@ -7,10 +7,6 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "roles")
 public class Role {
 
@@ -26,4 +22,12 @@ public class Role {
         this.role = role;
     }
 
+    public Role() {
+
+    }
+
+    public Role(long id, String role) {
+        this.id = id;
+        this.role = role;
+    }
 }

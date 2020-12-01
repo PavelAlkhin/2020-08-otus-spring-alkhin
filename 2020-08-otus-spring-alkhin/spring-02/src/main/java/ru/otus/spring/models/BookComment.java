@@ -1,15 +1,13 @@
 package ru.otus.spring.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "comments")
 public class BookComment {
 
@@ -21,5 +19,14 @@ public class BookComment {
 
     public BookComment(String text) {
         this.text = text;
+    }
+
+    public BookComment(long id, String text) {
+        this.id = id;
+        this.text = text;
+    }
+
+    public BookComment() {
+
     }
 }

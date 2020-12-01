@@ -15,16 +15,15 @@ values ('Book1', 1, 'description1'),('Book2', 2, 'description2'),('Book3', 3, 'd
 ('Book10', 10, 'description'),('Book11', 11, 'description'),('Book12', 12, 'description');
 
 insert into books_authors (book_id, author_id)
-values (1, 1),(1, 3),(2, 2),(2, 1),(3, 3),(3, 2)
-,(4, 1),(4, 3),(5, 2),(5, 1),
+values (1, 1),(1, 3),(2, 2),(2, 1),(3, 3),(3, 2),
+(4, 1),(4, 3),(5, 2),(5, 1),
 (6, 3),(6, 2),(7, 1),(7, 3),
 (8, 2),(8, 1),(9, 3),(9, 2),
 (10, 1),(10, 3),(11, 2),(11, 1),
 (12, 3),(12, 2);
 
 insert into books_genres (book_id, genre_id)
-values (1, 1),(2, 1),(3, 1)
-,(4, 2),(5, 1),(6, 1),(7, 1),(8, 3),(9, 1),(10, 2),(11, 3),(12, 2);
+values (1, 1),(2, 1),(3, 1),(4, 2),(5, 1),(6, 1),(7, 1),(8, 3),(9, 1),(10, 2),(11, 3),(12, 2);
 
 insert into books_comments (book_id, comment_id)
 values (1, 1),(2, 2),(3, 3),(4, 2)
@@ -66,7 +65,6 @@ INSERT INTO acl_entry (id, acl_object_identity, ace_order, sid, mask, granting, 
 (4, 2, 1, 1, 1, 1, 1, 1),
 (5, 2, 2, 2, 1, 1, 1, 1),
 (6, 3, 1, 3, 1, 1, 1, 1),
-
 (7, 4, 1, 1, 2, 1, 1, 1),
 (8, 5, 1, 2, 2, 1, 1, 1),
 (9, 6, 1, 3, 2, 1, 1, 1),
