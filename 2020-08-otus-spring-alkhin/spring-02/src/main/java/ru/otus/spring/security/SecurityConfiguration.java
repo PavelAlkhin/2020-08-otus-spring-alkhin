@@ -34,7 +34,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web
                 .ignoring()
-                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**")
+                .antMatchers("/v2/api-docs")
+                .antMatchers("/h2-console/**");;
     }
 
     @Override
@@ -46,7 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/list").authenticated()
                 .and()
-                .authorizeRequests().antMatchers("/newbook","/api/save","/api/savenew","/api/authorsgenres", "/api/books/delete/*").hasRole( "ADMIN" )
+                .authorizeRequests().antMatchers("/newbook","/api/save","/api/savenew","/api/authorsgenres", "/api/books/delete/*", "/api/users", "/users").hasRole( "ADMIN" )
                 .and()
                 .authorizeRequests().antMatchers("/books/","/api/books/").hasAnyRole("USER" )
                 .and()

@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS GENRES;
 DROP TABLE IF EXISTS BOOKS;
 DROP TABLE IF EXISTS AUTHORS;
 DROP TABLE IF EXISTS COMMENTS;
+DROP TABLE IF EXISTS USERS;
+DROP TABLE IF EXISTS ROLES;
 
 CREATE TABLE AUTHORS (
     id bigint AUTO_INCREMENT,
@@ -43,6 +45,28 @@ CREATE TABLE BOOKS_GENRES(
 CREATE TABLE BOOKS_COMMENTS(
     book_id bigint references BOOKS(id) on delete cascade,
     comment_id bigint references COMMENTS(id) on delete cascade
+);
+
+CREATE TABLE USERS (
+    user_id bigint AUTO_INCREMENT,
+    active tinyint(1) NOT NULL,
+    username VARCHAR(255),
+    email  VARCHAR(255),
+    password  VARCHAR(255),
+    name  VARCHAR(255),
+    lastname  VARCHAR(255),
+    primary key (user_id)
+);
+
+CREATE TABLE ROLES (
+    role_id bigint AUTO_INCREMENT,
+    role VARCHAR(255),
+    primary key (role_id)
+);
+
+CREATE TABLE USER_ROLE(
+    user_id bigint references USERS(user_id) on delete cascade,
+    role_id bigint references ROLES(role_id) on delete cascade
 );
 
 

@@ -21,4 +21,7 @@ public class BookController {
 
     @GetMapping("/newbook")
     public String newbook(Model model) { return "newbook"; }
+
+    @GetMapping("/admin")
+    public String adminPage(Model model) { return "admin"; }
 }
