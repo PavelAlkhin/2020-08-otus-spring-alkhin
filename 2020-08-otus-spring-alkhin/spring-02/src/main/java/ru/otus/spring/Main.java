@@ -1,6 +1,6 @@
 package ru.otus.spring;
 
-import lombok.val;
+import com.github.cloudyrock.spring.v5.EnableMongock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+@EnableMongock
 @SpringBootApplication
 public class Main {
 
@@ -33,9 +34,9 @@ public class Main {
     @PostConstruct
     public void fillUsers() {
 
-        val roleUser = roleRep.save(new Role("ROLE_USER"));
+        Role roleUser = roleRep.save(new Role("ROLE_USER"));
 
-        val userUser = new User("user");
+        User userUser = new User("user");
         userUser.setPassword("111");
         userUser.setActive(true);
         userUser.setName("userovich");
@@ -47,8 +48,7 @@ public class Main {
         userUser.setRoles(Collections.singleton(roleUser));
         userRep.save(userUser);
 
-
-        val userAdmin = new User("admin");
+        User userAdmin = new User("admin");
         userAdmin.setPassword("111");
         User userFromDB2 = userRep.findByUserName(userAdmin.getUserName());
 
@@ -80,6 +80,5 @@ public class Main {
         userAdmin.setPassword(bCryptPasswordEncoder.encode(userAdmin.getPassword()));
         userRep.save(userAdmin);
     }
-
 
 }

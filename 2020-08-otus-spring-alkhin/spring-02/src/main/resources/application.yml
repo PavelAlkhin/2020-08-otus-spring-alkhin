@@ -2,7 +2,7 @@
 spring:
   datasource:
     url: jdbc:h2:mem:testdb
-#    data: data.sql
+    data: data.sql
     initialization-mode: always
 
   jpa:
@@ -12,15 +12,23 @@ spring:
 
     show-sql: true
 
+  shell:
+    interactive:
+      enabled: true
+
+  batch:
+    job:
+      enabled: false
+
 # оставлю для завтрашнего себя. работа с монгой
 #spring:
-#  data:
-#    mongodb:
-##      port: 0
+  data:
+    mongodb:
+      port: 0
 #      port: 27017
-#      database: books
-#      host: localhost
-##      initialization-mode: always
+      database: books
+      host: localhost
+#      initialization-mode: always
 #
 #logging:
 #  level:
