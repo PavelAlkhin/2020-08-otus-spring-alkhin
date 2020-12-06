@@ -9,15 +9,13 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.JobOperator;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import ru.otus.example.springbatch.config.AppProps;
 
-import static ru.otus.example.springbatch.config.JobConfig.*;
+import static ru.otus.spring.config.JobConfig.*;
 
 @RequiredArgsConstructor
 @ShellComponent
 public class BatchCommands {
 
-    private final AppProps appProps;
     private final Job importUserJob;
 
     private final JobLauncher jobLauncher;
@@ -29,18 +27,13 @@ public class BatchCommands {
     @ShellMethod(value = "startMigrationJobWithJobLauncher", key = "sm-jl")
     public void startMigrationJobWithJobLauncher() throws Exception {
         JobExecution execution = jobLauncher.run(importUserJob, new JobParametersBuilder()
-                .addString(INPUT_FILE_NAME, appProps.getInputFile())
-                .addString(OUTPUT_FILE_NAME, appProps.getOutputFile())
                 .toJobParameters());
         System.out.println(execution);
     }
 
     @ShellMethod(value = "startMigrationJobWithJobOperator", key = "sm-jo")
     public void startMigrationJobWithJobOperator() throws Exception {
-        Long executionId = jobOperator.start(IMPORT_USER_JOB_NAME,
-                INPUT_FILE_NAME + "=" + appProps.getInputFile() + "\n" +
-                        OUTPUT_FILE_NAME + "=" + appProps.getOutputFile()
-        );
+        Long executionId = jobOperator.start(IMPORT_USER_JOB_NAME,"letsdoit");
         System.out.println(jobOperator.getSummary(executionId));
     }
 

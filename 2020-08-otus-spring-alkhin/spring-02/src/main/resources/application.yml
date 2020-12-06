@@ -34,8 +34,14 @@ spring:
 #  level:
 #    ROOT: ERROR
 #
-#mongock:
-#  #runner-type: "ApplicationRunner" # default
-#  runner-type: "InitializingBean"
-#  change-logs-scan-package:
-#    - ru.otus.spring.mongock.changelog
+mongock:
+  #runner-type: "ApplicationRunner" # default
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.spring.mongock.changelog
+
+
+app:
+  ages-count-to-add: 1
+  input-file: entries.csv
+  output-file: output.dat

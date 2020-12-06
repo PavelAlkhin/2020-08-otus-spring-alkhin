@@ -20,6 +20,7 @@
         <mongock.version>4.1.17</mongock.version>
         <ehcache-core.version>2.6.11</ehcache-core.version>
         <swagger.version>2.8.0</swagger.version>
+        <flapdoodle.version>2.2.0</flapdoodle.version>
     </properties>
 
     <dependencies>
@@ -29,23 +30,6 @@
             <version>1.18.12</version>
             <scope>provided</scope>
         </dependency>
-
-<!--&lt;!&ndash;        <dependency>&ndash;&gt;-->
-<!--&lt;!&ndash;            <groupId>org.jetbrains</groupId>&ndash;&gt;-->
-<!--&lt;!&ndash;            <artifactId>annotations</artifactId>&ndash;&gt;-->
-<!--&lt;!&ndash;            <version>RELEASE</version>&ndash;&gt;-->
-<!--&lt;!&ndash;            <scope>compile</scope>&ndash;&gt;-->
-<!--&lt;!&ndash;        </dependency>&ndash;&gt;-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-web</artifactId>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-thymeleaf</artifactId>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>org.webjars</groupId>
@@ -59,67 +43,12 @@
             <version>3.3.1</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-test</artifactId>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-security</artifactId>-->
-<!--        </dependency>-->
-
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.security/spring-security-core &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.security</groupId>-->
-<!--            <artifactId>spring-security-core</artifactId>-->
-<!--        </dependency>-->
-
         <!-- hot swapping, disable cache for template, enable live reload -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
-
-<!--        &lt;!&ndash; org.springframework.security:spring-security-core:5.3.4.RELEASE&ndash;&gt;-->
-
-<!--        <dependency>-->
-<!--            <groupId>net.bytebuddy</groupId>-->
-<!--            <artifactId>byte-buddy</artifactId>-->
-<!--        </dependency>-->
-
-<!--        &lt;!&ndash; Spring Security ACL и зависимости&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.security</groupId>-->
-<!--            <artifactId>spring-security-acl</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>net.sf.ehcache</groupId>-->
-<!--            <artifactId>ehcache-core</artifactId>-->
-<!--            <version>${ehcache-core.version}</version>-->
-<!--            <type>jar</type>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework</groupId>-->
-<!--            <artifactId>spring-context-support</artifactId>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-data-jpa</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.h2database</groupId>-->
-<!--            <artifactId>h2</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.jetbrains</groupId>-->
-<!--            <artifactId>annotations</artifactId>-->
-<!--            <version>RELEASE</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
 
         <!-- Зависимости WebFlux -->
         <!--        <dependency>-->
@@ -132,10 +61,7 @@
         <!--            <groupId>org.springframework.boot</groupId>-->
         <!--            <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>-->
         <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>de.flapdoodle.embed</groupId>-->
-        <!--            <artifactId>de.flapdoodle.embed.mongo</artifactId>-->
-        <!--        </dependency>-->
+
 
         <!-- Тестирование -->
         <!--        <dependency>-->
@@ -144,7 +70,6 @@
         <!--            <scope>test</scope>-->
         <!--        </dependency>-->
 
-        <!-- https://mvnrepository.com/artifact/org.springframework.shell/spring-shell-starter -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -154,6 +79,8 @@
         <dependency>
             <groupId>de.flapdoodle.embed</groupId>
             <artifactId>de.flapdoodle.embed.mongo</artifactId>
+            <version>${flapdoodle.version}</version>
+<!--            <scope>test</scope>-->
         </dependency>
 
         <dependency>
