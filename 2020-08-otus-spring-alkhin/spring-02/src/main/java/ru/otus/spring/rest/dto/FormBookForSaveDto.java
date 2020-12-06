@@ -12,11 +12,11 @@ import java.util.List;
 @Setter
 @Getter
 public class FormBookForSaveDto {
-    private String id;
+    private long id;
     private String title;
     private String description;
-    private List<String> authornames;
-    private List<String> genrernames;
+    private List<Long> authornames;
+    private List<Long> genrernames;
     private String newcomment;
-    private List<String> comments;
+    private List<Long> comments;
 }

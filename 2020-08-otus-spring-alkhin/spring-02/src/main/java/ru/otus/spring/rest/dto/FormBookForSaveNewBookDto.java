@@ -14,7 +14,7 @@ import java.util.List;
 public class FormBookForSaveNewBookDto {
     private String title;
     private String description;
-    private List<String> authornames;
-    private List<String> genrernames;
+    private List<Long> authornames;
+    private List<Long> genrernames;
     private String newcomment;
 }

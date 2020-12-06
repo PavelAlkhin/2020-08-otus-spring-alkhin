@@ -1,6 +1,6 @@
 package ru.otus.spring.service;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.models.Role;
@@ -11,12 +11,16 @@ import ru.otus.spring.repositories.UserRepository;
 import java.util.Arrays;
 import java.util.HashSet;
 
-@AllArgsConstructor
 @Service
 public class UserService {
 
+    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public User findUserByEmail(String email) {

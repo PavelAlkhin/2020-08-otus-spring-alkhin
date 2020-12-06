@@ -2,7 +2,6 @@ package ru.otus.spring.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -13,7 +12,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import ru.otus.spring.service.MyUserDetailsService;
 
 @EnableWebSecurity
-@Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -34,7 +32,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web
                 .ignoring()
-                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**")
+                .antMatchers("/v2/api-docs")
+                .antMatchers("/h2-console/**");;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/list").authenticated()
                 .and()
-                .authorizeRequests().antMatchers("/newbook","/api/save","/api/savenew","/api/authorsgenres", "/api/books/delete/*").hasRole( "ADMIN" )
+                .authorizeRequests().antMatchers("/newbook","/api/save","/api/savenew/**","/api/authorsgenres", "/api/books/delete/*", "/api/users", "/users").hasRole( "ADMIN" )
                 .and()
                 .authorizeRequests().antMatchers("/books/","/api/books/").hasAnyRole("USER" )
                 .and()

@@ -2,49 +2,34 @@ package ru.otus.spring.models;
 
 import lombok.*;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.*;
 
-import java.util.List;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Document(collection = "authors")
+@Getter
+@Setter
+@Entity
+@Table(name = "authors")
 public class Author {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
-
-    private List<Book> books;
-
-    public Author(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Author(String name, List<Book> books) {
-        this.name = name;
-        this.books = books;
-    }
 
     public Author(String name) {
         this.name = name;
     }
 
-    public static Author AuthorToDTO(Author author) {
-        return new Author(author.getId(), author.getName(), author.getBooks());
+    public Author() {
+
     }
 
-    public String printBooks(){
-        String strBooks = "Books=";
-        for (int i = 0; books.size()>i;i++){
-            val book = books.get(i);
-            strBooks += "'" + book.getTitle() + "';";
-        }
-        return strBooks;
+    public Author(long id, String name) {
+    }
+
+    public static Author AuthorToDTO(Author author) {
+        return new Author(author.getId(), author.getName());//, author.getBooks());
     }
 
 }

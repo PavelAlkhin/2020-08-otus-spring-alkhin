@@ -8,21 +8,25 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "genres")
-public class Genre {
+@Table(name = "comments")
+public class BookComment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name", nullable = false, unique = true)
-    private String name;
+    private String text;
 
-    public Genre(long id, String name) {
-        this.id = id;
-        this.name = name;
+    public BookComment(String text) {
+        this.text = text;
     }
 
-    public Genre() {
+    public BookComment(long id, String text) {
+        this.id = id;
+        this.text = text;
+    }
+
+    public BookComment() {
+
     }
 }
