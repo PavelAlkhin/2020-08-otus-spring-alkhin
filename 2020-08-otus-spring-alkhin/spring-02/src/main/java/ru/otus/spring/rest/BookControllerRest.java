@@ -4,16 +4,6 @@ import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.acls.domain.BasePermission;
-import org.springframework.security.acls.domain.GrantedAuthoritySid;
-import org.springframework.security.acls.domain.ObjectIdentityImpl;
-import org.springframework.security.acls.domain.PrincipalSid;
-import org.springframework.security.acls.model.MutableAcl;
-import org.springframework.security.acls.model.MutableAclService;
-import org.springframework.security.acls.model.ObjectIdentity;
-import org.springframework.security.acls.model.Sid;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.spring.models.Author;
@@ -48,8 +38,8 @@ public class BookControllerRest {
     @Autowired
     private GenreRepository repGenre;
 
-    @Autowired
-    protected MutableAclService mutableAclService;
+//    @Autowired
+//    protected MutableAclService mutableAclService;
 
     private ArrayList<Genre> getGenreEmptyList() {
         return new ArrayList<>();
@@ -128,18 +118,18 @@ public class BookControllerRest {
 
         repBook.save(newBook);
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        final Sid owner = new PrincipalSid(authentication);
-        ObjectIdentity oid = new ObjectIdentityImpl(newBook.getClass(), newBook.getId());
-
-        final Sid admin = new GrantedAuthoritySid("ROLE_EDITOR");
-
-        MutableAcl acl = mutableAclService.createAcl(oid);
-        acl.setOwner(owner);
-        acl.insertAce(acl.getEntries().size(), BasePermission.ADMINISTRATION, admin, true);
-
-        mutableAclService.updateAcl(acl);
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//        final Sid owner = new PrincipalSid(authentication);
+//        ObjectIdentity oid = new ObjectIdentityImpl(newBook.getClass(), newBook.getId());
+//
+//        final Sid admin = new GrantedAuthoritySid("ROLE_EDITOR");
+//
+//        MutableAcl acl = mutableAclService.createAcl(oid);
+//        acl.setOwner(owner);
+//        acl.insertAce(acl.getEntries().size(), BasePermission.ADMINISTRATION, admin, true);
+//
+//        mutableAclService.updateAcl(acl);
 
         return newBook;
     }

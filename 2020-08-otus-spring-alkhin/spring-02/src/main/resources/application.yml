@@ -16,26 +16,26 @@ spring:
     interactive:
       enabled: true
 
-  batch:
-    job:
-      enabled: false
+#  batch:
+#    job:
+#      enabled: false
 
-# оставлю для завтрашнего себя. работа с монгой
-#spring:
-  data:
-    mongodb:
-      port: 0
-#      port: 27017
-      database: books
-      host: localhost
-#      initialization-mode: always
-#
-#logging:
-#  level:
-#    ROOT: ERROR
-#
-mongock:
-  #runner-type: "ApplicationRunner" # default
-  runner-type: "InitializingBean"
-  change-logs-scan-package:
-    - ru.otus.spring.mongock.changelog
+## оставлю для завтрашнего себя. работа с монгой
+##spring:
+#  data:
+#    mongodb:
+#      port: 0
+##      port: 27017
+#      database: books
+#      host: localhost
+##      initialization-mode: always
+##
+##logging:
+##  level:
+##    ROOT: ERROR
+##
+#mongock:
+#  #runner-type: "ApplicationRunner" # default
+#  runner-type: "InitializingBean"
+#  change-logs-scan-package:
+#    - ru.otus.spring.mongock.changelog

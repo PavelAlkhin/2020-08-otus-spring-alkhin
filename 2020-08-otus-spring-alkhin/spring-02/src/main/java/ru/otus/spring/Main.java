@@ -1,6 +1,5 @@
 package ru.otus.spring;
 
-import com.github.cloudyrock.spring.v5.EnableMongock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,7 +14,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-@EnableMongock
 @SpringBootApplication
 public class Main {
 
