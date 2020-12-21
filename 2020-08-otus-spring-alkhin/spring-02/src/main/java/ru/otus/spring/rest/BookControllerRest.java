@@ -4,8 +4,10 @@ import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.integration.channel.DirectChannel;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import ru.otus.spring.Main;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
@@ -37,6 +39,13 @@ public class BookControllerRest {
 
     @Autowired
     private GenreRepository repGenre;
+
+    @Autowired
+    DirectChannel outputChannel;
+
+    @Autowired
+    Main.BookLabrary bookLabrary;
+
 
 //    @Autowired
 //    protected MutableAclService mutableAclService;
@@ -82,8 +91,10 @@ public class BookControllerRest {
         bookForSave.setComments(book.getComments());
         bookForSave.addComment(bookForSaveDto.getNewcomment());
 
-        repBook.save(bookForSave);
-        return bookForSave;
+        outputChannel.subscribe(x -> System.out.println("книга тустринг "+ x.getPayload().toString()));
+
+        return bookLabrary.saveBook(bookForSave);
+
     }
 
     @RequestMapping(value = "/books/delete/{id}",  produces = "application/json", method = RequestMethod.DELETE)
@@ -106,6 +117,7 @@ public class BookControllerRest {
        return ResponseEntity.ok(new BookAuthorsGenresDto(null, authorList, genreList));
     }
 
+    @Transactional
     @RequestMapping(value = "/savenew", method = RequestMethod.PUT)
     public @ResponseBody Book saveNewBook(@RequestBody FormBookForSaveNewBookDto book){
 
@@ -116,7 +128,12 @@ public class BookControllerRest {
 
         newBook.addComment(book.getNewcomment());
 
-        repBook.save(newBook);
+        outputChannel.subscribe(x -> System.out.println("книга тустринг "+ x.getPayload().toString()));
+
+        return bookLabrary.saveBook(newBook);
+
+
+//        repBook.save(newBook);
 
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //
@@ -131,7 +148,7 @@ public class BookControllerRest {
 //
 //        mutableAclService.updateAcl(acl);
 
-        return newBook;
+//        return newBook;
     }
 
     @RequestMapping(value="/users", method = RequestMethod.GET)

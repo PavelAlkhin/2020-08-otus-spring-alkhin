@@ -3,7 +3,13 @@ package ru.otus.spring;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.integration.annotation.Gateway;
+import org.springframework.integration.annotation.MessagingGateway;
+import org.springframework.integration.channel.DirectChannel;
+import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Role;
 import ru.otus.spring.models.User;
 import ru.otus.spring.repositories.RoleRepository;
@@ -22,6 +28,23 @@ public class Main {
 
     @Autowired
     private RoleRepository roleRep;
+
+    @Bean
+    DirectChannel outputChannel() {
+        return new DirectChannel();
+    }
+    @MessagingGateway
+    public interface BookLabrary {
+        @Gateway(requestChannel = "saveBookFlow.input")
+        Book saveBook(Book book);
+    }
+    // канал DirectChannel с именем animalFlow.input создается автоматически
+    @Bean
+    public IntegrationFlow saveBookFlow() {
+        return flow -> flow
+                .handle("bookService", "saveBook")
+                .channel("outputChannel");
+    }
 
     public static void main(String[] args) {
 
