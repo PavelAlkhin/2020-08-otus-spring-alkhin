@@ -33,18 +33,31 @@ public class Main {
     DirectChannel outputChannel() {
         return new DirectChannel();
     }
+
     @MessagingGateway
     public interface BookLabrary {
         @Gateway(requestChannel = "saveBookFlow.input")
         Book saveBook(Book book);
     }
-    // канал DirectChannel с именем animalFlow.input создается автоматически
+
     @Bean
     public IntegrationFlow saveBookFlow() {
         return flow -> flow
                 .handle("bookService", "saveBook")
                 .channel("outputChannel");
     }
+
+//    @Autowired
+//    private EntityManagerFactory entityManagerFactory;
+//
+//    @Bean
+//    public IntegrationFlow outboundAdapterFlow() {
+//        return f -> f
+//                .handle(Jpa.outboundAdapter(this.entityManagerFactory)
+//                                .entityClass(Book.class)
+//                                .persistMode(PersistMode.PERSIST),
+//                        e -> e.transactional());
+//    }
 
     public static void main(String[] args) {
 
