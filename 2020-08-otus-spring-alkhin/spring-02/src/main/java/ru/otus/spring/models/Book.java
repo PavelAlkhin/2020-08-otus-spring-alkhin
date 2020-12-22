@@ -25,21 +25,21 @@ public class Book {
     private String description;
 
     @Setter @Getter
-    @ManyToMany(targetEntity = Author.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Author.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "books_authors", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     @Fetch(FetchMode.SUBSELECT)
     private List<Author> authors;
 
     @Setter @Getter
-    @ManyToMany(targetEntity = Genre.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL )
+    @ManyToMany(targetEntity = Genre.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL )
     @JoinTable(name = "books_genres", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     @Fetch(FetchMode.SUBSELECT)
     private List<Genre> genres;
 
     @Getter
-    @ManyToMany(targetEntity = BookComment.class, fetch = FetchType.LAZY , cascade = CascadeType.ALL )
+    @ManyToMany(targetEntity = BookComment.class, fetch = FetchType.EAGER , cascade = CascadeType.ALL )
     @JoinTable(name = "books_comments", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "comment_id"))
     private List<BookComment> comments;

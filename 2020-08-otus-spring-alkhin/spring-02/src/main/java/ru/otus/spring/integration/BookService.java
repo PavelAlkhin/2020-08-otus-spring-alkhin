@@ -1,4 +1,4 @@
-package ru.otus.spring.service;
+package ru.otus.spring.integration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,4 +20,13 @@ public class BookService {
 
         return savedBook;
     }
+
+    @Transactional
+    public Book getBookById(long id) throws Exception {
+        System.out.println( "получаем книгу по Id " );
+        Book book = bookRepository.findById(id).orElseThrow();
+
+        return book;
+    }
+
 }
