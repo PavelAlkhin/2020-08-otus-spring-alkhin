@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.integration.annotation.IntegrationComponentScan;
-import org.springframework.integration.config.EnableIntegration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ru.otus.spring.models.Role;
 import ru.otus.spring.models.User;
@@ -17,10 +15,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-@IntegrationComponentScan
 @SuppressWarnings({"resource", "Duplicates", "InfiniteLoopStatement"})
 @Configuration
-@EnableIntegration
 @SpringBootApplication
 public class Main {
 

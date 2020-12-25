@@ -34,6 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**")
                 .antMatchers("/v2/api-docs")
+                .antMatchers("/datarest/browser/index.html#/datarest**")
                 .antMatchers("/h2-console/**");;
     }
 
@@ -42,11 +43,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 //.and()
-                .authorizeRequests().antMatchers("/").permitAll()
+                .authorizeRequests().antMatchers("/", "/datarest/**").permitAll()
                 .and()
-                .authorizeRequests().antMatchers("/list").authenticated()
+                .authorizeRequests().antMatchers("/list", "/datarest**").authenticated()
                 .and()
-                .authorizeRequests().antMatchers("/newbook","/api/save","/api/savenew/**","/api/authorsgenres", "/api/books/delete/*", "/api/users", "/users").hasRole( "ADMIN" )
+                .authorizeRequests().antMatchers("/datarest/**/**", "/newbook", "/api/save", "/api/savenew/**", "/api/authorsgenres", "/api/books/delete/*", "/api/users", "/users").hasRole( "ADMIN" )
                 .and()
                 .authorizeRequests().antMatchers("/books/","/api/books/").hasAnyRole("USER" )
                 .and()

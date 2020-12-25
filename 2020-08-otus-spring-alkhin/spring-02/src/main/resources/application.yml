@@ -18,6 +18,21 @@ spring:
     interactive:
       enabled: true
 
+  jmx:
+    enabled: true
+
+  data:
+    rest:
+      base-path: /datarest
+
+
+logging:
+  level:
+    ROOT: DEBUG
+  file:
+    name: C:\\JAVA_LOGS\\app.log
+
+
 #  batch:
 #    job:
 #      enabled: false
@@ -32,9 +47,7 @@ spring:
 #      host: localhost
 ##      initialization-mode: always
 ##
-##logging:
-##  level:
-##    ROOT: ERROR
+
 ##
 #mongock:
 #  #runner-type: "ApplicationRunner" # default
