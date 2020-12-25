@@ -1,6 +1,6 @@
 package ru.otus.spring.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.models.Role;
@@ -8,19 +8,16 @@ import ru.otus.spring.models.User;
 import ru.otus.spring.repositories.RoleRepository;
 import ru.otus.spring.repositories.UserRepository;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Set;
 
 @Service
+@AllArgsConstructor
 public class UserService {
 
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
     private RoleRepository roleRepository;
 
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public User findUserByEmail(String email) {
@@ -31,20 +28,36 @@ public class UserService {
         return userRepository.findByUserName(userName);
     }
 
-    public User saveUser(User user) {
+    public User saveUser(User user, Role role) {
+
+        Role userRole = roleRepository.findByRole(role.getRole());
+        if(userRole == null){
+            userRole = roleRepository.save(role);
+        }
+
+        User userFromRep = userRepository.findByUserName(user.getUserName());
+        if(userFromRep != null){
+            return userFromRep;
+        }
+
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setActive(true);
-        Role userRole = roleRepository.findByRole("ROLE_USER");
-        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+        Set<Role> userRoles = user.getRoles();
+
+        if (userRoles.size() == 0){
+            userRoles.add(userRole);
+        }
+
+        user.setRoles(userRoles);
         return userRepository.save(user);
     }
 
-    public User saveAdmin(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setActive(true);
-        Role userRole = roleRepository.findByRole("ROLE_ADMIN");
-        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
-        return userRepository.save(user);
-    }
+//    public User saveAdmin(User user) {
+//        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+//        user.setActive(true);
+//        Role userRole = roleRepository.findByRole("ROLE_ADMIN");
+//        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+//        return userRepository.save(user);
+//    }
 
 }
