@@ -52,12 +52,4 @@ public class UserService {
         return userRepository.save(user);
     }
 
-//    public User saveAdmin(User user) {
-//        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-//        user.setActive(true);
-//        Role userRole = roleRepository.findByRole("ROLE_ADMIN");
-//        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
-//        return userRepository.save(user);
-//    }
-
 }
