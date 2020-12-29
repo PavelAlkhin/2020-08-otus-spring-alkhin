@@ -4,11 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.val;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.integration.channel.DirectChannel;
 import org.springframework.security.acls.model.MutableAclService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import ru.otus.spring.integration.BookLabrary;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
@@ -38,10 +36,6 @@ public class BookControllerRest {
 
     private GenreRepository repGenre;
 
-    private DirectChannel outputChannel;
-
-    private BookLabrary bookLabrary;
-
     protected MutableAclService mutableAclService;
 
     private ArrayList<Genre> getGenreEmptyList() {
@@ -64,10 +58,8 @@ public class BookControllerRest {
         List<Genre> genreList = getGenreEmptyList();
         repGenre.findAll().iterator().forEachRemaining(g -> genreList.add(g));
 
-        outputChannel.subscribe(x -> System.out.println("книга тустринг "+ x.getPayload().toString()));
-
         return ResponseEntity.ok(new BookAuthorsGenresDto(
-                    bookLabrary.getBookById(id),
+                    repBook.findById(id).orElse(new Book()),
                     authorList,
                     genreList
                 )
@@ -77,18 +69,16 @@ public class BookControllerRest {
     @RequestMapping(value = "/save", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Book saveBook(@RequestBody FormBookForSaveDto bookForSaveDto) throws Throwable {
 
-        val book = bookLabrary.getBookById(bookForSaveDto.getId());
-        val authorList = repAuthor.findAllByIdIn(bookForSaveDto.getAuthornames());
-        val genreList = repGenre.findAllByIdIn(bookForSaveDto.getGenrernames());
+        Book book = repBook.findById(bookForSaveDto.getId()).orElse(new Book());
+        List<Author> authorList = repAuthor.findAllByIdIn(bookForSaveDto.getAuthornames());
+        List<Genre> genreList = repGenre.findAllByIdIn(bookForSaveDto.getGenrernames());
 
         Book bookForSave = new Book(bookForSaveDto.getTitle(), bookForSaveDto.getDescription(), authorList, genreList);
         bookForSave.setId(book.getId());
         bookForSave.setComments(book.getComments());
         bookForSave.addComment(bookForSaveDto.getNewcomment());
 
-        outputChannel.subscribe(x -> System.out.println("книга тустринг "+ x.getPayload().toString()));
-
-        return bookLabrary.saveBook(bookForSave);
+        return repBook.save(bookForSave);
 
     }
 
@@ -116,16 +106,14 @@ public class BookControllerRest {
     @RequestMapping(value = "/savenew", method = RequestMethod.PUT)
     public @ResponseBody Book saveNewBook(@RequestBody FormBookForSaveNewBookDto book){
 
-        val authorList = repAuthor.findAllByIdIn(book.getAuthornames());
-        val genreList = repGenre.findAllByIdIn(book.getGenrernames());
+        List<Author> authorList = repAuthor.findAllByIdIn(book.getAuthornames());
+        List<Genre> genreList = repGenre.findAllByIdIn(book.getGenrernames());
 
         Book newBook = new Book(book.getTitle(), book.getDescription(), authorList, genreList);
 
         newBook.addComment(book.getNewcomment());
 
-        outputChannel.subscribe(x -> System.out.println("книга тустринг "+ x.getPayload().toString()));
-
-        return bookLabrary.saveBook(newBook);
+        return repBook.save(newBook);
 
     }
 

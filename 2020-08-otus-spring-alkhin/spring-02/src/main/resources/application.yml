@@ -18,6 +18,18 @@ spring:
     interactive:
       enabled: true
 
+
+  data:
+    rest:
+      base-path: /datarest
+
+
+  logging:
+    level:
+      ROOT: INFO
+    file:
+      name: C:\\JAVA_LOGS\\app.log
+
 #  batch:
 #    job:
 #      enabled: false
