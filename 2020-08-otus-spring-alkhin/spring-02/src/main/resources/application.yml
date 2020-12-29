@@ -28,7 +28,7 @@ spring:
 
 logging:
   level:
-    ROOT: DEBUG
+    ROOT: ERROR
   file:
     name: C:\\JAVA_LOGS\\app.log
 
