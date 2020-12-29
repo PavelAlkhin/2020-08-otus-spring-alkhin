@@ -14,8 +14,11 @@ import java.util.Random;
 @Component
 public class MyHealthIndicator implements HealthIndicator {
 
-    @Autowired
     BookRepository bookRepository;
+
+    public MyHealthIndicator(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     @Override
     public Health health() {

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.val;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.acls.model.MutableAclService;
+//import org.springframework.security.acls.model.MutableAclService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.spring.models.Author;
@@ -39,14 +39,13 @@ public class BookControllerRest {
 
     private GenreRepository repGenre;
 
-    protected MutableAclService mutableAclService;
+//    protected MutableAclService mutableAclService;
 
     private ArrayList<Genre> getGenreEmptyList() {
         return new ArrayList<>();
     }
 
     private static final Logger LOGGER = LogManager.getLogger(BookControllerRest.class.getName());
-
 
     @Transactional
     @GetMapping("/books")

@@ -7,7 +7,7 @@ import ru.otus.spring.models.Book;
 
 import java.util.List;
 
-@RepositoryRestResource(path="book")
+@RepositoryRestResource(path="datarest")
 public interface BookRestRepository extends PagingAndSortingRepository<Book, Long>{
 
     @RestResource(path = "title", rel = "title")

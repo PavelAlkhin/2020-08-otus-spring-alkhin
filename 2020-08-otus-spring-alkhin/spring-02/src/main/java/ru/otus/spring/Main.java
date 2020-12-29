@@ -1,5 +1,6 @@
 package ru.otus.spring;
 
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -35,9 +36,9 @@ public class Main {
     @PostConstruct
     public void fillUsers() {
 
-        Role roleUser = roleRep.save(new Role("ROLE_USER"));
+        val roleUser = roleRep.save(new Role("ROLE_USER"));
 
-        User userUser = new User("user");
+        val userUser = new User("user");
         userUser.setPassword("111");
         userUser.setActive(true);
         userUser.setName("userovich");
@@ -49,7 +50,9 @@ public class Main {
         userUser.setRoles(Collections.singleton(roleUser));
         userRep.save(userUser);
 
-        User userAdmin = new User("admin");
+
+        val userAdmin = new User("admin");
+
         userAdmin.setPassword("111");
         User userFromDB2 = userRep.findByUserName(userAdmin.getUserName());
 
@@ -69,6 +72,7 @@ public class Main {
 
         Set<Role> roleList = new HashSet<>();
 
+        roleList.add(roleUser);
         roleList.add(roleAdmin);
         roleList.add(roleEditor);
 
@@ -80,6 +84,52 @@ public class Main {
         userAdmin.setRoles(roleList);
         userAdmin.setPassword(bCryptPasswordEncoder.encode(userAdmin.getPassword()));
         userRep.save(userAdmin);
+
+//        Role roleUser = roleRep.save(new Role("ROLE_USER"));
+//
+//        User userUser = new User("user");
+//        userUser.setPassword("111");
+//        userUser.setActive(true);
+//        userUser.setName("userovich");
+//        userUser.setEmail("aaa@qqq");
+//        userUser.setLastName("userov");
+//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+//        userUser.setPassword(bCryptPasswordEncoder.encode(userUser.getPassword()));
+//
+//        userUser.setRoles(Collections.singleton(roleUser));
+//        userRep.save(userUser);
+//
+//        User userAdmin = new User("admin");
+//        userAdmin.setPassword("111");
+//        User userFromDB2 = userRep.findByUserName(userAdmin.getUserName());
+//
+//        if (userFromDB2 != null) {
+//            return;
+//        }
+//
+//        Role roleAdmin = roleRep.findByRole("ROLE_ADMIN");
+//        if(roleAdmin == null){
+//            roleAdmin = roleRep.save(new Role("ROLE_ADMIN"));
+//        }
+//
+//        Role roleEditor = roleRep.findByRole("ROLE_EDITOR");
+//        if(roleEditor == null){
+//            roleEditor = roleRep.save(new Role("ROLE_EDITOR"));
+//        }
+//
+//        Set<Role> roleList = new HashSet<>();
+//
+//        roleList.add(roleAdmin);
+//        roleList.add(roleEditor);
+//
+//        userAdmin.setActive(true);
+//        userAdmin.setName("adminych");
+//        userAdmin.setEmail("adm@qqq");
+//        userAdmin.setLastName("adminov");
+//
+//        userAdmin.setRoles(roleList);
+//        userAdmin.setPassword(bCryptPasswordEncoder.encode(userAdmin.getPassword()));
+//        userRep.save(userAdmin);
     }
 
 }
