@@ -44,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //.and()
                 .authorizeRequests().antMatchers("/").permitAll()
                 .and()
-                .authorizeRequests().antMatchers("/").authenticated()
+                .authorizeRequests().antMatchers("/books/", "/api/books/").authenticated()
                 .and()
                 .authorizeRequests().antMatchers("/newbook", "/api/save", "/api/savenew/**", "/api/authorsgenres", "/api/books/delete/*", "/api/users", "/users").hasRole( "ADMIN" )
                 .and()
