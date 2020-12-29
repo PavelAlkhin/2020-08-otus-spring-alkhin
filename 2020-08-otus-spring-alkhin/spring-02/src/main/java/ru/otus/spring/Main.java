@@ -3,7 +3,6 @@ package ru.otus.spring;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ru.otus.spring.models.Role;
 import ru.otus.spring.models.User;
@@ -15,8 +14,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-@SuppressWarnings({"resource", "Duplicates", "InfiniteLoopStatement"})
-@Configuration
 @SpringBootApplication
 public class Main {
 

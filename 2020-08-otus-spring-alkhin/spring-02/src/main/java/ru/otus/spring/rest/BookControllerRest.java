@@ -1,9 +1,19 @@
 package ru.otus.spring.rest;
 
-import lombok.AllArgsConstructor;
 import lombok.val;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.acls.domain.BasePermission;
+import org.springframework.security.acls.domain.GrantedAuthoritySid;
+import org.springframework.security.acls.domain.ObjectIdentityImpl;
+import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.model.MutableAcl;
+import org.springframework.security.acls.model.MutableAclService;
+import org.springframework.security.acls.model.ObjectIdentity;
+import org.springframework.security.acls.model.Sid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.spring.models.Author;
@@ -21,27 +31,35 @@ import ru.otus.spring.rest.dto.FormBookForSaveNewBookDto;
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional
 @RestController
 @RequestMapping(value="/api")
-@AllArgsConstructor
 public class BookControllerRest {
 
+    @Autowired
     private UserRepository repUser;
 
+    @Autowired
     private BookRepository repBook;
 
+    @Autowired
     private AuthorRepository repAuthor;
 
+    @Autowired
     private GenreRepository repGenre;
+
+    @Autowired
+    protected MutableAclService mutableAclService;
 
     private ArrayList<Genre> getGenreEmptyList() {
         return new ArrayList<>();
     }
 
-    @Transactional
     @GetMapping("/books")
-    public List<Book> getAllBooks() throws InterruptedException {
-        return repBook.findAll();
+    public List<Book> getAllBooks() {
+
+        List<Book> books = repBook.findAll();
+        return books;
     }
 
     @RequestMapping(value = "/books/{id}", method = RequestMethod.GET)
@@ -55,7 +73,7 @@ public class BookControllerRest {
         repGenre.findAll().iterator().forEachRemaining(g -> genreList.add(g));
 
         return ResponseEntity.ok(new BookAuthorsGenresDto(
-                    repBook.findById(id).orElse(new Book()),
+                    repBook.findById(id).orElseThrow(),
                     authorList,
                     genreList
                 )
@@ -65,17 +83,17 @@ public class BookControllerRest {
     @RequestMapping(value = "/save", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Book saveBook(@RequestBody FormBookForSaveDto bookForSaveDto) throws Throwable {
 
-        Book book = repBook.findById(bookForSaveDto.getId()).orElse(new Book());
-        List<Author> authorList = repAuthor.findAllByIdIn(bookForSaveDto.getAuthornames());
-        List<Genre> genreList = repGenre.findAllByIdIn(bookForSaveDto.getGenrernames());
+        val book = repBook.findById(bookForSaveDto.getId()).orElseThrow();
+        val authorList = repAuthor.findAllByIdIn(bookForSaveDto.getAuthornames());
+        val genreList = repGenre.findAllByIdIn(bookForSaveDto.getGenrernames());
 
         Book bookForSave = new Book(bookForSaveDto.getTitle(), bookForSaveDto.getDescription(), authorList, genreList);
         bookForSave.setId(book.getId());
         bookForSave.setComments(book.getComments());
         bookForSave.addComment(bookForSaveDto.getNewcomment());
 
-        return repBook.save(bookForSave);
-
+        repBook.save(bookForSave);
+        return bookForSave;
     }
 
     @RequestMapping(value = "/books/delete/{id}",  produces = "application/json", method = RequestMethod.DELETE)
@@ -98,19 +116,32 @@ public class BookControllerRest {
        return ResponseEntity.ok(new BookAuthorsGenresDto(null, authorList, genreList));
     }
 
-    @Transactional
     @RequestMapping(value = "/savenew", method = RequestMethod.PUT)
     public @ResponseBody Book saveNewBook(@RequestBody FormBookForSaveNewBookDto book){
 
-        List<Author> authorList = repAuthor.findAllByIdIn(book.getAuthornames());
-        List<Genre> genreList = repGenre.findAllByIdIn(book.getGenrernames());
+        val authorList = repAuthor.findAllByIdIn(book.getAuthornames());
+        val genreList = repGenre.findAllByIdIn(book.getGenrernames());
 
         Book newBook = new Book(book.getTitle(), book.getDescription(), authorList, genreList);
 
         newBook.addComment(book.getNewcomment());
 
-        return repBook.save(newBook);
+        repBook.save(newBook);
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        final Sid owner = new PrincipalSid(authentication);
+        ObjectIdentity oid = new ObjectIdentityImpl(newBook.getClass(), newBook.getId());
+
+        final Sid admin = new GrantedAuthoritySid("ROLE_EDITOR");
+
+        MutableAcl acl = mutableAclService.createAcl(oid);
+        acl.setOwner(owner);
+        acl.insertAce(acl.getEntries().size(), BasePermission.ADMINISTRATION, admin, true);
+
+        mutableAclService.updateAcl(acl);
+
+        return newBook;
     }
 
     @RequestMapping(value="/users", method = RequestMethod.GET)

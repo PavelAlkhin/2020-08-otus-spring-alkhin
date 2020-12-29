@@ -32,7 +32,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web
                 .ignoring()
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**")
-                .antMatchers("/datarest/**")
                 .antMatchers("/v2/api-docs")
                 .antMatchers("/h2-console/**");;
     }

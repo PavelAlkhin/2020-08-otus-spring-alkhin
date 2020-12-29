@@ -12,44 +12,30 @@ spring:
 
     show-sql: true
 
-    open-in-view: false
-
   shell:
     interactive:
       enabled: true
 
+  batch:
+    job:
+      enabled: false
 
+# оставлю для завтрашнего себя. работа с монгой
+#spring:
   data:
-    rest:
-      base-path: /datarest
-
-
-  logging:
-    level:
-      ROOT: INFO
-    file:
-      name: C:\\JAVA_LOGS\\app.log
-
-#  batch:
-#    job:
-#      enabled: false
-
-## оставлю для завтрашнего себя. работа с монгой
-##spring:
-#  data:
-#    mongodb:
-#      port: 0
-##      port: 27017
-#      database: books
-#      host: localhost
-##      initialization-mode: always
-##
-##logging:
-##  level:
-##    ROOT: ERROR
-##
-#mongock:
-#  #runner-type: "ApplicationRunner" # default
-#  runner-type: "InitializingBean"
-#  change-logs-scan-package:
-#    - ru.otus.spring.mongock.changelog
+    mongodb:
+      port: 0
+#      port: 27017
+      database: books
+      host: localhost
+#      initialization-mode: always
+#
+#logging:
+#  level:
+#    ROOT: ERROR
+#
+mongock:
+  #runner-type: "ApplicationRunner" # default
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.spring.mongock.changelog
