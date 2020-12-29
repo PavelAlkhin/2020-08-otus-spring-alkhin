@@ -11,10 +11,10 @@ public class BookController {
     @GetMapping("/")
     public String indexPage(Model model) { return "index"; }
 
-    @GetMapping("/list")
-    public String listPage(Model model) { return "list"; }
-
     @GetMapping("/books")
+    public String listPage(Model model) { return "books"; }
+
+    @GetMapping("/edit")
     public String editPage(@RequestParam(value = "id", required = false) String id, Model model) { return "edit"; }
 
     @GetMapping("/newbook")
