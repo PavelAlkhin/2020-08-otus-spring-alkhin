@@ -4,18 +4,21 @@ import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.actuate.health.Status;
 import org.springframework.stereotype.Component;
-
-import java.util.Random;
+import ru.otus.spring.repositories.BookRepository;
 
 @Component
 public class MyHealthIndicator implements HealthIndicator {
 
-    private final Random random = new Random();
+    BookRepository bookRepository;
+
+    public MyHealthIndicator(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     @Override
     public Health health() {
-        boolean serverIsDown = random.nextBoolean();
-        if (serverIsDown) {
+        long books = bookRepository.count();
+        if (books == 0) {
             return Health.up()
                     .status(Status.DOWN)
                     .withDetail("message", "App is up")

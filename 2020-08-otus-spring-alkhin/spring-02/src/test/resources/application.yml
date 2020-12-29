@@ -30,9 +30,6 @@ spring:
       database: books
       host: localhost
 #      initialization-mode: always
-
-    rest:
-      base-path: /datarest
 #
 #logging:
 #  level:
