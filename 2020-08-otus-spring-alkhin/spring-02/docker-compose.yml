@@ -1,0 +1,19 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    privileged: true
+    ports:
+      - "8080:8080"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1k"
+        max-file: "3"
+    volumes:
+#      - /logs:/opt/app/logs/
+#      - C:\logs:/var/lib/docker/containers/
+      - C:\logs\app.log:/dev/stdout/
+#      - C:\logs\:/opt/app/logs/
