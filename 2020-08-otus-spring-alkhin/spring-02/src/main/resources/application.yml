@@ -1,5 +1,8 @@
-# здесь настройки для data jpa
+server:
+  port: 8080
+
 spring:
+  # здесь настройки для data jpa
   datasource:
     url: jdbc:h2:mem:testdb
     data: data.sql
@@ -12,32 +15,11 @@ spring:
 
     show-sql: true
 
-    open-in-view: false
+# здесь настройки для логирования
+logging:
+  level:
+    ROOT: INFO
+  file:
+    max-size: 10MB
+    name: ./logs/app.log
 
-  shell:
-    interactive:
-      enabled: true
-
-#  batch:
-#    job:
-#      enabled: false
-
-## оставлю для завтрашнего себя. работа с монгой
-##spring:
-#  data:
-#    mongodb:
-#      port: 0
-##      port: 27017
-#      database: books
-#      host: localhost
-##      initialization-mode: always
-##
-##logging:
-##  level:
-##    ROOT: ERROR
-##
-#mongock:
-#  #runner-type: "ApplicationRunner" # default
-#  runner-type: "InitializingBean"
-#  change-logs-scan-package:
-#    - ru.otus.spring.mongock.changelog

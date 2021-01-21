@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import ru.otus.spring.service.MyUserDetailsService;
 
 @EnableWebSecurity
@@ -20,8 +19,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyUserDetailsService userDetailsService;
 
-    @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
+//    @Autowired
+//    private AccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -52,9 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .and()
-                .logout().logoutUrl("/logout")
-                .and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+                .logout().logoutUrl("/logout");
     }
 
     @Override
