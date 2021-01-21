@@ -13,7 +13,4 @@ services:
         max-size: "1k"
         max-file: "3"
     volumes:
-#      - /logs:/opt/app/logs/
-#      - C:\logs:/var/lib/docker/containers/
       - C:\logs\app.log:/dev/stdout/
-#      - C:\logs\:/opt/app/logs/
