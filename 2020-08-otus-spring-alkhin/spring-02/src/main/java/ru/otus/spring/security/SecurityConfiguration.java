@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import ru.otus.spring.service.MyUserDetailsService;
 
 @EnableWebSecurity
@@ -20,8 +19,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyUserDetailsService userDetailsService;
 
-    @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
+//    @Autowired
+//    private AccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -42,19 +41,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 //.and()
+                .httpBasic()
+                .and()
                 .authorizeRequests().antMatchers("/").permitAll()
                 .and()
                 .authorizeRequests().antMatchers("/list").authenticated()
                 .and()
-                .authorizeRequests().antMatchers("/newbook","/api/save","/api/savenew/**","/api/authorsgenres", "/api/books/delete/*", "/api/users", "/users").hasRole( "ADMIN" )
+                .authorizeRequests().antMatchers("/api/books/**", "/newbook","/api/save","/api/savenew/**","/api/authorsgenres", "/api/books/delete/*", "/api/users", "/users").hasRole( "ADMIN" )
                 .and()
-                .authorizeRequests().antMatchers("/books/","/api/books/").hasAnyRole("USER" )
+                .authorizeRequests().antMatchers("/books/","/api/books/").hasRole( "ADMIN" )
                 .and()
                 .formLogin()
                 .and()
-                .logout().logoutUrl("/logout")
-                .and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+                .logout().logoutUrl("/logout");
     }
 
     @Override

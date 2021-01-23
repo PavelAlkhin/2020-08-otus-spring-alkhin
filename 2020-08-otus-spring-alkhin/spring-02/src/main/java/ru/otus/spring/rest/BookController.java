@@ -15,7 +15,7 @@ public class BookController {
     public String listPage(Model model) { return "list"; }
 
     @GetMapping("/books")
-    public String editPage(@RequestParam(value = "id", required = false) String id, Model model) { return "edit"; }
+    public String editPage(@RequestParam(value = "id", required = false) Long id, Model model) { return "edit"; }
 
     @GetMapping("/newbook")
     public String newbook(Model model) { return "newbook"; }

@@ -8,17 +8,13 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-//   @PostFilter("hasPermission(filterObject, 'READ')")
    List<Book> findByTitle(String title);
 
-//   @PostFilter("hasPermission(filterObject, 'READ')")
    List<Book> findByAuthorsContains(Author author);
 
-//   @PostFilter("hasPermission(filterObject, 'READ')")
    List<Book> findAll();
 
    @SuppressWarnings("unchecked")
-//   @PreAuthorize("hasPermission(#book, 'WRITE')") //@Param("book")
    Book save(Book book);
 
 }
